@@ -2,15 +2,20 @@ module Model exposing (..)
 
 type alias Model =
     { page : Page
-    , shoppingPreferences : List String
+    , preferences : 
+        { shopping : List String }
     }
+    
 
 type Msg
     = NoOp
     | Goto Page
-    | AddShoppingPreference String
+    | AddPreference PreferenceType String
     
 type Page
     = Login 
-    | SetupPreferences
-    | SetupPreferencesShopping 
+    | SetupRoot
+    | SetupShopping
+    
+type PreferenceType 
+    = Shopping

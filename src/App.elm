@@ -18,7 +18,8 @@ main =
 init : (Model, Cmd Msg)
 init = 
     { page = Login 
-    , shoppingPreferences = []
+    , preferences = 
+        { shopping = [] }
     } 
         ! 
         [ Cmd.none ]

@@ -62,9 +62,7 @@ block model title event =
                         []
                     ]
                 , div
-                    [ style
-                        [ ( "text-align", "center" ) ]
-                    ]
+                    [ style [ ( "text-align", "center" ) ] ]
                     [ text title ]
                 ]
             else 

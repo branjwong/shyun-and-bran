@@ -20,6 +20,7 @@ view model =
     in
       div
         [ class "container" ]
-        [ div [] [ ViewUtilities.blocks model items msgs ]
+        [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Which preferences would you like to change?" ]
+        , ViewUtilities.blocks model items msgs
         , ViewUtilities.gotoButton Login "Logout"
         ]

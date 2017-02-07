@@ -15,6 +15,7 @@ view model =
     in
         div
             [ class "container" ]
-            [ ViewUtilities.blocks model items msgs
+            [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Change your shopping preferences" ]
+            , ViewUtilities.blocks model items msgs
             , ViewUtilities.gotoButton PreferencesRoot "Back to Preference Select"
             ]

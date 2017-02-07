@@ -15,10 +15,16 @@ update msg model =
                 AddPreference prefType pref ->
                     case prefType of
                         Shopping ->
-                            { model 
-                                | preferences = { preferences 
-                                    | shopping = (pref :: model.preferences.shopping) } 
-                            }
+                            case List.member pref model.preferences.shopping of
+                                True ->
+                                    { model 
+                                        | preferences = { preferences 
+                                            | shopping = List.filter (\str -> str /= pref) model.preferences.shopping }
+                                    }
+                                False ->
+                                    { model 
+                                        | preferences = { preferences 
+                                            | shopping = (pref :: model.preferences.shopping) } 
+                                    }
     in
         model_ ! [ Cmd.none ]
-                    

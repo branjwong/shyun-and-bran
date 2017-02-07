@@ -13,9 +13,6 @@ view model =
         Login ->
             Login.view
         SetupRoot ->
-            Preferences.Root.view
+            Preferences.Root.view model 
         SetupShopping ->
-            Preferences.Shopping.view
-
-
-
+            Preferences.Shopping.view model

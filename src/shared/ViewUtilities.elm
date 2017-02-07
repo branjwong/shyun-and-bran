@@ -8,49 +8,55 @@ import Model exposing (..)
 
 import Utilities
 
-blocks : List String ->  List Msg -> Html Msg
-blocks titles msgs =
+blocks : Model -> List String ->  List Msg -> Html Msg
+blocks model titles msgs =
     let 
         titles_ = Utilities.listToTripletList titles ""
         msgs_ = Utilities.listToTripletList msgs NoOp
     in
         div 
             []
-            (List.map2 blockRow titles_ msgs_)
+            (List.map2 (blockRow model) titles_ msgs_)
         
 
-blockRow : (String, String, String) -> (Msg, Msg, Msg) -> Html Msg
-blockRow (s1, s2, s3) (m1, m2, m3) = 
+blockRow : Model -> (String, String, String) -> (Msg, Msg, Msg) -> Html Msg
+blockRow model (s1, s2, s3) (m1, m2, m3) = 
     div
         [ class "row" ]
         [ div
             [ class "col-sm-2 col-sm-offset-3" ]
-            [ block s1 m1 ]
+            [ block model s1 m1 ]
         , div
             [ class "col-sm-2" ]
-            [ block s2 m2 ]
+            [ block model s2 m2 ]
         , div
             [ class "col-sm-2" ]
-            [ block s3 m3 ]
+            [ block model s3 m3 ]
         ]
 
 
-block : String -> msg -> Html msg
-block title event =
-    if title /= "" then
-        div
-            [ class "BlockDiv" ]
-            [ div
-                [ class "BlockRim", Events.onClick event ]
+block : Model -> String -> msg -> Html msg
+block model title event =
+    let
+        rimClass = 
+            case List.member title model.preferences.shopping of
+                True -> "BlockRimSelected"
+                False -> "BlockRim"
+    in
+        if title /= "" then
+            div
+                [ class "BlockDiv" ]
                 [ div
-                    [ class "Block" ]
-                    []
+                    [ class rimClass, Events.onClick event ]
+                    [ div
+                        [ class "Block" ]
+                        []
+                    ]
+                , div
+                    [ style
+                        [ ( "text-align", "center" ) ]
+                    ]
+                    [ text title ]
                 ]
-            , div
-                [ style
-                    [ ( "text-align", "center" ) ]
-                ]
-                [ text title ]
-            ]
-        else 
-            div [] []
+            else 
+                div [] []

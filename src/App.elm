@@ -13,7 +13,7 @@ main =
         , update = Update.update
         , view = View.view
         , subscriptions = (\_ -> Sub.none)
-        }
+        } 
 
 init : (Model, Cmd Msg)
 init = 

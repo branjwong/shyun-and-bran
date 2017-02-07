@@ -49,6 +49,11 @@ body {
     background-color: #FFF;
 }
 
+.BlockRimSelected {
+    padding: 5px;
+    background-color: #3b2bbd;
+}
+
 .BlockDiv {
     margin-top: 10px;
 }

@@ -8,8 +8,8 @@ import Model exposing (..)
 import ViewUtilities
 
 
-view : Html Msg
-view =
+view : Model -> Html Msg
+view model =
     let 
       items = ["Sightseeing", "Food", "Nightlife", "Shopping", "Surprise Me", "Up For Anything"]
       gotoPage item =
@@ -22,6 +22,6 @@ view =
           [ class "container" ]
           [ div
               [ class "HomeContainer" ]
-              [ ViewUtilities.blocks items msgs ]
+              [ ViewUtilities.blocks model items msgs ]
           ]
   

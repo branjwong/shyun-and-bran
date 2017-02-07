@@ -14,14 +14,12 @@ view model =
       items = ["Sightseeing", "Food", "Nightlife", "Shopping", "Surprise Me", "Up For Anything"]
       gotoPage item =
           case item of
-              "Shopping" -> Goto SetupShopping
+              "Shopping" -> Goto PreferencesShopping
               _ -> NoOp
       msgs = List.map gotoPage items 
     in
       div
-          [ class "container" ]
-          [ div
-              [ class "HomeContainer" ]
-              [ ViewUtilities.blocks model items msgs ]
-          ]
-  
+        [ class "container" ]
+        [ div [] [ ViewUtilities.blocks model items msgs ]
+        , ViewUtilities.gotoButton Login "Logout"
+        ]

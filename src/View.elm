@@ -12,7 +12,7 @@ view model =
     case model.page of
         Login ->
             Login.view
-        SetupRoot ->
-            Preferences.Root.view model 
-        SetupShopping ->
+        PreferencesRoot ->
+            Preferences.Root.view Model.blankModel 
+        PreferencesShopping ->
             Preferences.Shopping.view model

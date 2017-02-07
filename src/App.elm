@@ -1,7 +1,7 @@
 module App exposing (main)
 
-import Model exposing (..)
-import Update exposing (..)
+import Model exposing (Model, Msg)
+import Update 
 import View
 
 import Html exposing (program)
@@ -16,10 +16,4 @@ main =
         } 
 
 init : (Model, Cmd Msg)
-init = 
-    { page = Login 
-    , preferences = 
-        { shopping = [] }
-    } 
-        ! 
-        [ Cmd.none ]
+init = Model.blankModel ! [ Cmd.none ]

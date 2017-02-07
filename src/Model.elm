@@ -7,6 +7,13 @@ type alias Model =
     }
     
 
+blankModel : Model
+blankModel = 
+    { page = Login 
+    , preferences = 
+        { shopping = [] }
+    } 
+
 type Msg
     = NoOp
     | Goto Page
@@ -14,8 +21,8 @@ type Msg
     
 type Page
     = Login 
-    | SetupRoot
-    | SetupShopping
+    | PreferencesRoot
+    | PreferencesShopping
     
 type PreferenceType 
     = Shopping

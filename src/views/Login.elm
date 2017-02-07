@@ -37,7 +37,7 @@ view =
                   ]
               ]
           , button
-              [ class "btn btn-lg btn-primary btn-block", type_ "undefined", Events.onClick (Goto SetupRoot) ]
+              [ class "btn btn-lg btn-primary btn-block", type_ "undefined", Events.onClick (Goto PreferencesRoot) ]
               [ text "Sign in" ]
           ]
       ]

@@ -8,6 +8,15 @@ import Model exposing (..)
 
 import Utilities
 
+gotoButton : Page -> String -> Html Msg
+gotoButton page txt =
+    div [ class "form-signin" ] 
+        [ button
+            [ class "btn btn-lg btn-primary btn-block", type_ "undefined", Events.onClick (Goto page) ]
+            [ text txt ]
+        ]
+
+
 blocks : Model -> List String ->  List Msg -> Html Msg
 blocks model titles msgs =
     let 

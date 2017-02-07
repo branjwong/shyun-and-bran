@@ -17,11 +17,12 @@ view model =
               "Shopping" -> Goto PreferencesShopping
               "Sightseeing" -> Goto PreferencesSightseeing
               _ -> NoOp
-      msgs = List.map gotoPage items 
+      msgs = List.map gotoPage items
+      images = List.map (\_-> "") items
     in
       div
         [ class "container" ]
         [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Which preferences would you like to change?" ]
-        , ViewUtilities.blocks [] items msgs
+        , ViewUtilities.blocks [] items msgs images
         , ViewUtilities.gotoButton Login "Logout"
         ]

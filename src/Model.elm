@@ -3,7 +3,9 @@ module Model exposing (..)
 type alias Model =
     { page : Page
     , preferences : 
-        { shopping : List String }
+        { shopping : List String
+        , sightseeing : List String
+        }
     }
     
 
@@ -11,7 +13,9 @@ blankModel : Model
 blankModel = 
     { page = Login 
     , preferences = 
-        { shopping = [] }
+        { shopping = []
+        , sightseeing = []
+        }
     } 
 
 type Msg
@@ -23,6 +27,8 @@ type Page
     = Login 
     | PreferencesRoot
     | PreferencesShopping
+    | PreferencesSightseeing
     
 type PreferenceType 
     = Shopping
+    | Sightseeing

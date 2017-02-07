@@ -6,6 +6,7 @@ import Html exposing (..)
 import Login exposing (view)
 import Preferences.Root exposing (view)
 import Preferences.Shopping exposing (view)
+import Preferences.Sightseeing exposing (view)
 
 view : Model -> Html Msg
 view model =
@@ -16,3 +17,6 @@ view model =
             Preferences.Root.view Model.blankModel 
         PreferencesShopping ->
             Preferences.Shopping.view model
+        PreferencesSightseeing ->
+            Preferences.Sightseeing.view model
+            

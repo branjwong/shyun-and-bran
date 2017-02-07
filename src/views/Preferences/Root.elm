@@ -15,12 +15,13 @@ view model =
       gotoPage item =
           case item of
               "Shopping" -> Goto PreferencesShopping
+              "Sightseeing" -> Goto PreferencesSightseeing
               _ -> NoOp
       msgs = List.map gotoPage items 
     in
       div
         [ class "container" ]
         [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Which preferences would you like to change?" ]
-        , ViewUtilities.blocks model items msgs
+        , ViewUtilities.blocks [] items msgs
         , ViewUtilities.gotoButton Login "Logout"
         ]

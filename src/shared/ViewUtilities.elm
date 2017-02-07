@@ -17,38 +17,38 @@ gotoButton page txt =
         ]
 
 
-blocks : Model -> List String ->  List Msg -> Html Msg
-blocks model titles msgs =
+blocks : List String -> List String ->  List Msg -> Html Msg
+blocks prefList titles msgs =
     let 
         titles_ = Utilities.listToTripletList titles ""
         msgs_ = Utilities.listToTripletList msgs NoOp
     in
         div 
             []
-            (List.map2 (blockRow model) titles_ msgs_)
+            (List.map2 (blockRow prefList) titles_ msgs_)
         
 
-blockRow : Model -> (String, String, String) -> (Msg, Msg, Msg) -> Html Msg
-blockRow model (s1, s2, s3) (m1, m2, m3) = 
+blockRow : List String -> (String, String, String) -> (Msg, Msg, Msg) -> Html Msg
+blockRow prefList (s1, s2, s3) (m1, m2, m3) = 
     div
         [ class "row" ]
         [ div
             [ class "col-sm-2 col-sm-offset-3" ]
-            [ block model s1 m1 ]
+            [ block prefList s1 m1 ]
         , div
             [ class "col-sm-2" ]
-            [ block model s2 m2 ]
+            [ block prefList s2 m2 ]
         , div
             [ class "col-sm-2" ]
-            [ block model s3 m3 ]
+            [ block prefList s3 m3 ]
         ]
 
 
-block : Model -> String -> msg -> Html msg
-block model title event =
+block : List String -> String -> msg -> Html msg
+block prefList title event =
     let
         rimClass = 
-            case List.member title model.preferences.shopping of
+            case List.member title prefList of
                 True -> "BlockRimSelected"
                 False -> "BlockRim"
     in

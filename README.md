@@ -10,7 +10,7 @@ https://docs.google.com/document/d/1fTZI3jGCxygpydWMZkIeD4iRpsHKJXXvJkInywPgPfs
   * web-app that's fit for mobile use
 * Test Backend: Firebase
 * True Backend: tbd
-  * Options: Haskel, PHP
+  * Options: Haskell, PHP
   
 
 

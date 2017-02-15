@@ -6,14 +6,12 @@ import Html.Attributes exposing (..)
 import Model exposing (..)
 
 import ViewUtilities
-
-
-
+import Utilities
 
 view : Model -> Html Msg
 view model = 
     let 
-        itemImagePairs = List.sortWith ViewUtilities.sortPreferences
+        itemImagePairs = List.sortWith Utilities.sortPreferences
             [ ("Sensoji", "")
             , ("Yokohama", "")
             , ("Akihabara", "")

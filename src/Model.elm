@@ -24,10 +24,12 @@ type Msg
     | AddPreference PreferenceType String
     
 type Page
-    = Login 
+    = Login
+    | MainMenu
     | PreferencesRoot
     | PreferencesShopping
     | PreferencesSightseeing
+    | Matcher
     
 type PreferenceType 
     = Shopping

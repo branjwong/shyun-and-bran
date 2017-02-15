@@ -1,16 +1,12 @@
-module Utilities exposing (listToTripletList)
+module Utilities exposing (listToTupleList)
 
-listToTripletList : List a -> a -> List (a, a, a)
-listToTripletList list default =
+listToTupleList : List a -> a -> List (a, a)
+listToTupleList list default =
     case list of
-        [] -> [(default,default,default)]
-        [a] -> [(a,default,default)]
+        [] -> [(default,default)]
+        [a] -> [(a,default)]
         a::xa ->
             case xa of
-                [] -> [(default,default,default)]
-                [b] -> [(a,b,default)]
-                b::xb ->
-                    case xb of
-                        [] -> [(default,default,default)]
-                        [c] -> [(a,b,c)]
-                        c::xc -> (a,b,c) :: (listToTripletList xc a)
+                [] -> [(default,default)]
+                [b] -> [(a,b)]
+                b::xb -> (a,b) :: (listToTupleList xb default)

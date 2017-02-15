@@ -23,8 +23,8 @@ view model =
     in
         div
             [ class "container" ]
-            [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Change your shopping preferences" ]
+            [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Shopping Searchables" ]
             , ViewUtilities.blocks model.preferences.shopping items msgs images 
-            , ViewUtilities.gotoButton PreferencesRoot "Back to Preference Select"
+            , ViewUtilities.gotoButton PreferencesRoot "Back to Searchables Select"
             ]
             

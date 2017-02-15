@@ -20,30 +20,39 @@ gotoButton page txt =
 blocks : List String -> List String ->  List Msg -> List String -> Html Msg
 blocks prefList titles msgs images =
     let 
-        titles_ = Utilities.listToTripletList titles ""
-        msgs_ = Utilities.listToTripletList msgs NoOp
-        image_ = Utilities.listToTripletList images ""
+        titles_ = Utilities.listToTupleList titles ""
+        msgs_ = Utilities.listToTupleList msgs NoOp
+        image_ = Utilities.listToTupleList images ""
     in
         div 
             []
             (List.map3 (blockRow prefList) titles_ msgs_ image_)
         
 
-blockRow : List String -> (String, String, String) -> (Msg, Msg, Msg) -> (String, String, String) -> Html Msg
-blockRow prefList (s1, s2, s3) (m1, m2, m3) (i1, i2, i3) = 
-    div
-        [ class "row" ]
-        [ div
-            [ class "col-sm-2 col-sm-offset-3" ]
-            [ block prefList s1 m1 i1 ]
-        , div
-            [ class "col-sm-2" ]
-            [ block prefList s2 m2 i2 ]
-        , div
-            [ class "col-sm-2" ]
-            [ block prefList s3 m3 i3 ]
-        ]
+blockRow : List String -> (String, String) -> (Msg, Msg) -> (String, String) -> Html Msg
+blockRow prefList (s1, s2) (m1, m2) (i1, i2) =
+    let
+        size = "xs"
+        colWidth = 6
+        offset = 0
 
+        firstClass =
+            if offset > 0 then
+                secondClass ++ " col-" ++ size ++ "-offset-" ++ toString offset
+            else
+                secondClass
+
+        secondClass = "col-" ++ size ++ "-" ++ toString colWidth
+    in
+        div
+            [ class "row" ]
+            [ div
+                [ class firstClass ]
+                [ block prefList s1 m1 i1 ]
+            , div
+                [ class secondClass ]
+                [ block prefList s2 m2 i2 ]
+            ]
 
 block : List String -> String -> Msg -> String -> Html Msg
 block prefList title event image =

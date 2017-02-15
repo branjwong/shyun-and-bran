@@ -22,7 +22,7 @@ view model =
     in
       div
         [ class "container" ]
-        [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Which preferences would you like to change?" ]
+        [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Which searchables would you like to change?" ]
         , ViewUtilities.blocks [] items msgs images
-        , ViewUtilities.gotoButton Login "Logout"
+        , ViewUtilities.gotoButton MainMenu "Back to Main Menu"
         ]

@@ -26,7 +26,7 @@ view model =
     in
         div
             [ class "container" ]
-            [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Change your sightseeing preferences" ]
+            [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Sightseeing Searchables" ]
             , ViewUtilities.blocks model.preferences.sightseeing items msgs images
-            , ViewUtilities.gotoButton PreferencesRoot "Back to Preference Select"
+            , ViewUtilities.gotoButton PreferencesRoot "Back to Searchables Select"
             ]

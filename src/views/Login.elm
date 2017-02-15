@@ -5,6 +5,8 @@ import Html exposing (..)
 import Html.Attributes as Attr exposing (..) 
 import Html.Events as Events exposing (..)
 
+import Localization
+
 view : Html Msg
 view =
     div
@@ -13,7 +15,7 @@ view =
           [ class "form-signin" ]
           [ h2
               [ class "form-signin-heading" ]
-              [ text "Please sign in" ]
+              [ text (Localization.getLocal "home" "heading") ]
           , label
               [ for "inputEmail", class "sr-only" ]
               [ text "Email address" ]
@@ -37,7 +39,7 @@ view =
                   ]
               ]
           , button
-              [ class "btn btn-lg btn-primary btn-block", type_ "undefined", Events.onClick (Goto PreferencesRoot) ]
+              [ class "btn btn-lg btn-primary btn-block", type_ "undefined", Events.onClick (Goto MainMenu) ]
               [ text "Sign in" ]
           ]
       ]

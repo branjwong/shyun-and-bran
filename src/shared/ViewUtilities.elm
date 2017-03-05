@@ -1,4 +1,4 @@
-module ViewUtilities exposing (gotoButton, blocks, localProfile)
+module ViewUtilities exposing (gotoButton, blocks)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -80,21 +80,3 @@ block prefList title event image =
             else 
                 div [] []
 
-localProfile : Html Msg
-localProfile =
-    div [ class "thumbnail" ]
-    [ img [ alt "100%x200", attribute "data-holder-rendered" "true", attribute "data-src" "holder.js/100%x200", src "http://www.sephora.com/contentimages/categories/makeup/CONTOURING/030515/animations/round/round_01_before.jpg?country_switch=ca&lang=en", attribute "style" "height: 200px; display: block;" ]
-        []
-    , div [ class "caption" ]
-        [ h3 []
-            [ text "Thumbnail label" ]
-        , p []
-            [ text "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit." ]
-        , p []
-            [ a [ class "btn btn-primary", href "#", attribute "role" "button" ]
-                [ text "Button" ]
-            , a [ class "btn btn-default", href "#", attribute "role" "button" ]
-                [ text "Button" ]
-            ]
-        ]
-    ]

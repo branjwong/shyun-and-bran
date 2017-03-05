@@ -13,7 +13,7 @@ view =
     div
         [ class "container" ]
         [ h2 [ style [ ( "text-align", "center" ) ] ] [ text (Localization.getLocal "mainMenu" "title") ]
-        , ViewUtilities.gotoButton PreferencesRoot "Searchables"
-        , ViewUtilities.gotoButton Matcher "Find Friends"
-        , ViewUtilities.gotoButton Login "Logout"
+        , ViewUtilities.gotoButton PreferencesRoot (Localization.getLocal "mainMenu" "button_preferences")
+        , ViewUtilities.gotoButton Matcher (Localization.getLocal "mainMenu" "button_matcher")
+        , ViewUtilities.gotoButton Login (Localization.getLocal "mainMenu" "button_logout")
         ]

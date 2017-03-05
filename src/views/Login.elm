@@ -10,36 +10,37 @@ import Localization
 view : Html Msg
 view =
     div
-      [ class "container" ]
-      [ div
-          [ class "form-signin" ]
-          [ h2
-              [ class "form-signin-heading" ]
-              [ text (Localization.getLocal "home" "heading") ]
-          , label
-              [ for "inputEmail", class "sr-only" ]
-              [ text "Email address" ]
-          , input
-              [ type_ "undefined", id "inputEmail", class "form-control", placeholder "Email address", required True, autofocus True ]
-              []
-          , label
-              [ for "inputPassword", class "sr-only" ]
-              [ text "Password" ]
-          , input
-              [ type_ "undefined", id "inputPassword", class "form-control", placeholder "Password", required True ]
-              []
-          , div
-              [ class "checkbox" ]
-              [ label
-                  []
-                  [ input
-                      [ type_ "checkbox", value "remember-me" ]
-                      []
-                  , text "Remember me"
-                  ]
-              ]
-          , button
-              [ class "btn btn-lg btn-primary btn-block", type_ "undefined", Events.onClick (Goto MainMenu) ]
-              [ text "Sign in" ]
-          ]
-      ]
+        [ class "container" ]
+        [ div
+            [ class "form-signin" ]
+            [ h2
+                [ class "form-signin-heading" ]
+                [ text (Localization.getLocal "login" "heading") ]
+            , label
+                [ for "inputEmail", class "sr-only" ]
+                [ text (Localization.getLocal "login" "placeholder_email") ]
+            , input
+                [ type_ "undefined"
+                , id "inputEmail"
+                , class "form-control"
+              , placeholder (Localization.getLocal "login" "placeholder_email")
+                , required True
+                , autofocus True 
+                ]
+                []
+            , label
+                [ for "inputPassword", class "sr-only" ]
+                [ text (Localization.getLocal "login" "placeholder_password") ]
+            , input
+                [ type_ "undefined"
+                , id "inputPassword"
+                , class "form-control"
+                , placeholder (Localization.getLocal "login" "placeholder_password")
+                , required True 
+                ]
+                []
+            , button
+                [ class "btn btn-lg btn-primary btn-block", type_ "undefined", Events.onClick (Goto MainMenu) ]
+                [ text (Localization.getLocal "login" "button") ]
+            ]
+        ]

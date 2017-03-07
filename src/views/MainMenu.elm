@@ -14,6 +14,6 @@ view =
         [ class "container" ]
         [ h2 [ style [ ( "text-align", "center" ) ] ] [ text (Localization.getLocal "mainMenu" "title") ]
         , ViewUtilities.gotoButton PreferencesRoot (Localization.getLocal "mainMenu" "button_preferences")
-        , ViewUtilities.gotoButton MatcherFinder (Localization.getLocal "mainMenu" "button_matcher")
+        , ViewUtilities.gotoButton Matcher (Localization.getLocal "mainMenu" "button_matcher")
         , ViewUtilities.gotoButton Login (Localization.getLocal "mainMenu" "button_logout")
         ]

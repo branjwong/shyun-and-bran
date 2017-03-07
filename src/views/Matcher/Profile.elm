@@ -1,4 +1,4 @@
-module Matcher.Finder exposing (view)
+module Matcher.Profile exposing (view)
 
 import Html exposing (..)
 import Html.Attributes as Attr exposing (..) 
@@ -8,23 +8,13 @@ import Model exposing (..)
 
 import ViewUtilities
 
-view : Model -> Html Msg
-view model =
+view : User -> Html Msg
+view user =
     div 
         [ class "container" ]
-        [ localProfile (testUser model)
+        [ localProfile user
         , ViewUtilities.gotoButton MainMenu "Back to Main Menu" 
         ]
-
-testUser : Model -> User
-testUser model = 
-    let
-        name = "Mayo Naise"
-        desc = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit."
-        url =  "http://www.sephora.com/contentimages/categories/makeup/CONTOURING/030515/animations/round/round_01_before.jpg?country_switch=ca&lang=en"
-        pref = model.preferences
-    in 
-        User name url desc pref
 
 localProfile : User -> Html Msg
 localProfile user =
@@ -41,7 +31,7 @@ localProfile user =
                     , ("margin-left", "auto")
                     , ("display", "block")
                     ]
-                , Events.onClick (LookAtUser user)
+                , Events.onClick LookAwayFromUser
                 ]
                 []
             ]
@@ -49,6 +39,6 @@ localProfile user =
             [ h3 []
                 [ text user.profileName ]
             , p []
-                [ text (toString user.preferences) ]
+                [ text (toString user.description) ]
             ]
         ]

@@ -3,6 +3,7 @@ module Model exposing (..)
 type alias Model =
     { page : Page
     , preferences : Preferences
+    , userBeingViewed : Maybe User
     }
 
 type alias Preferences =
@@ -17,6 +18,7 @@ blankModel =
         { shopping = []
         , sightseeing = []
         }
+    , userBeingViewed = Nothing
     } 
 
 devModel : Model
@@ -26,7 +28,7 @@ devModel =
         preferences = model.preferences
     in
         { model 
-            | page = MatcherFinder
+            | page = Matcher
         }
         
 
@@ -41,6 +43,8 @@ type Msg
     = NoOp
     | Goto Page
     | AddPreference PreferenceType String
+    | LookAtUser User
+    | LookAwayFromUser
     
 type Page
     = Login
@@ -48,7 +52,7 @@ type Page
     | PreferencesRoot
     | PreferencesShopping
     | PreferencesSightseeing
-    | MatcherFinder
+    | Matcher
     
 type PreferenceType 
     = Shopping

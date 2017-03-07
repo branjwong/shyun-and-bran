@@ -13,6 +13,10 @@ update msg model =
                     { model | page = page }
                 AddPreference prefType pref ->
                     handlePreferenceList prefType pref model
+                LookAtUser user ->
+                    { model | userBeingViewed = Just user }
+                LookAwayFromUser ->
+                    { model | userBeingViewed = Nothing }
     in
         model_ ! [ Cmd.none ]
 

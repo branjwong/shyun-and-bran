@@ -12,7 +12,10 @@ gotoButton : Page -> String -> Html Msg
 gotoButton page txt =
     div [ class "form-signin" ] 
         [ button
-            [ class "btn btn-lg btn-primary btn-block", type_ "undefined", Events.onClick (Goto page) ]
+            [ class "btn btn-lg btn-primary btn-block"
+            , type_ "undefined"
+            , Events.onClick (Goto page) 
+            ]
             [ text txt ]
         ]
 

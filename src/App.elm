@@ -16,4 +16,4 @@ main =
         } 
 
 init : (Model, Cmd Msg)
-init = Model.blankModel ! [ Cmd.none ]
+init = Model.devModel ! [ Cmd.none ]

@@ -2,12 +2,13 @@ module Model exposing (..)
 
 type alias Model =
     { page : Page
-    , preferences : 
-        { shopping : List String
-        , sightseeing : List String
-        }
+    , preferences : Preferences
     }
-    
+
+type alias Preferences =
+    { shopping : List String
+    , sightseeing : List String
+    }
 
 blankModel : Model
 blankModel = 
@@ -17,6 +18,24 @@ blankModel =
         , sightseeing = []
         }
     } 
+
+devModel : Model
+devModel = 
+    let 
+        model = blankModel 
+        preferences = model.preferences
+    in
+        { model 
+            | page = MatcherFinder
+        }
+        
+
+type alias User = 
+    { profileName : String
+    , imgUrl : String
+    , description : String
+    , preferences : Preferences
+    }
 
 type Msg
     = NoOp
@@ -29,7 +48,7 @@ type Page
     | PreferencesRoot
     | PreferencesShopping
     | PreferencesSightseeing
-    | Matcher
+    | MatcherFinder
     
 type PreferenceType 
     = Shopping

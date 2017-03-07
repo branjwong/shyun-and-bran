@@ -8,7 +8,7 @@ import MainMenu exposing (view)
 import Preferences.Root exposing (view)
 import Preferences.Shopping exposing (view)
 import Preferences.Sightseeing exposing (view)
-import Matcher exposing (view)
+import Matcher.Finder exposing (view)
 
 view : Model -> Html Msg
 view model =
@@ -23,6 +23,6 @@ view model =
             Preferences.Shopping.view model
         PreferencesSightseeing ->
             Preferences.Sightseeing.view model
-        Matcher ->
-            Matcher.view
+        MatcherFinder ->
+            Matcher.Finder.view model
             

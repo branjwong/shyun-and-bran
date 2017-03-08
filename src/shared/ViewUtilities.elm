@@ -1,4 +1,4 @@
-module ViewUtilities exposing (gotoButton, blocks)
+module ViewUtilities exposing (gotoButton, blocks, faIcon)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -7,6 +7,14 @@ import Html.Events as Events
 import Model exposing (..)
 
 import Utilities
+
+faIcon : String -> Html msg
+faIcon iconName =
+    node "i" 
+        [ class iconName
+        , attribute "aria-hidden" "true"
+        ]
+        []
 
 gotoButton : Page -> String -> Html Msg
 gotoButton page txt =

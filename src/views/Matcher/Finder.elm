@@ -6,7 +6,7 @@ import Html.Events as Events
 
 import Model exposing (..)
 
-import ViewUtilities
+import ViewUtilities exposing (faIcon)
 
 view : Model -> Html Msg
 view model =
@@ -28,27 +28,43 @@ testUser model =
 
 localProfile : User -> Html Msg
 localProfile user =
-    div [ class "thumbnail" ]
-        [ div 
-            [ style
-                [ ("padding-top", "20px") ]
-            ]
-            [ img 
-                [ src user.imgUrl 
-                , style
-                    [ ("height", "200px")
-                    , ("margin-right", "auto")
-                    , ("margin-left", "auto")
-                    , ("display", "block")
-                    ]
-                , Events.onClick (LookAtUser user)
-                ]
+    let
+        arrowStyle = 
+            style 
                 []
+    in 
+        div 
+            [ class "thumbnail" ]
+            [ div 
+                [ class "row" ]
+                [ div [ class "col-xs-2", arrowStyle ] [ faIcon "fa fa-arrow-left" ]
+                , div 
+                    [ class "col-xs-8" ] 
+                    [ div 
+                        [ style
+                            [ ("padding-top", "20px") ]
+                        ]
+                        [ img 
+                            [ src user.imgUrl 
+                            , style
+                                [ ("height", "200px")
+                                , ("margin-right", "auto")
+                                , ("margin-left", "auto")
+                                , ("display", "block")
+                                ]
+                            , Events.onClick (LookAtUser user)
+                            ]
+                            []
+                        ]
+                    , div 
+                        [ class "caption" ]
+                        [ h3 []
+                            [ text user.profileName ]
+                        , p []
+                            [ text (toString user.preferences) ]
+                        ]
+                    ]
+                , div [ class "col-xs-2", arrowStyle ] [ faIcon "fa fa-arrow-right" ]
+                ]
             ]
-        , div [ class "caption" ]
-            [ h3 []
-                [ text user.profileName ]
-            , p []
-                [ text (toString user.preferences) ]
-            ]
-        ]
+                

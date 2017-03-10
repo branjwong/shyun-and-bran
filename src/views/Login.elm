@@ -2,10 +2,10 @@ module Login exposing (view)
 
 import Model exposing (..)
 import Html exposing (..)
-import Html.Attributes as Attr exposing (..) 
+import Html.Attributes as Attr exposing (..)
 import Html.Events as Events exposing (..)
-
 import Localization
+
 
 view : Html Msg
 view =
@@ -23,9 +23,9 @@ view =
                 [ type_ "undefined"
                 , id "inputEmail"
                 , class "form-control"
-              , placeholder (Localization.getLocal "login" "placeholder_email")
+                , placeholder (Localization.getLocal "login" "placeholder_email")
                 , required True
-                , autofocus True 
+                , autofocus True
                 ]
                 []
             , label
@@ -36,7 +36,7 @@ view =
                 , id "inputPassword"
                 , class "form-control"
                 , placeholder (Localization.getLocal "login" "placeholder_password")
-                , required True 
+                , required True
                 ]
                 []
             , button

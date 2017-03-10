@@ -2,11 +2,10 @@ module MainMenu exposing (view)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-
 import Model exposing (..)
-
 import Localization
 import ViewUtilities
+
 
 view : Html Msg
 view =

@@ -1,43 +1,51 @@
 module Model exposing (..)
 
+
 type alias Model =
     { page : Page
     , preferences : Preferences
     , userBeingViewed : Maybe User
     }
 
+
 type alias Preferences =
     { shopping : List String
     , sightseeing : List String
     }
 
+
 blankModel : Model
-blankModel = 
-    { page = Login 
-    , preferences = 
+blankModel =
+    { page = Login
+    , preferences =
         { shopping = []
         , sightseeing = []
         }
     , userBeingViewed = Nothing
-    } 
+    }
+
 
 devModel : Model
-devModel = 
-    let 
-        model = blankModel 
-        preferences = model.preferences
+devModel =
+    let
+        model =
+            blankModel
+
+        preferences =
+            model.preferences
     in
-        { model 
+        { model
             | page = Matcher
         }
-        
 
-type alias User = 
+
+type alias User =
     { profileName : String
     , imgUrl : String
     , description : String
     , preferences : Preferences
     }
+
 
 type Msg
     = NoOp
@@ -45,7 +53,8 @@ type Msg
     | AddPreference PreferenceType String
     | LookAtUser User
     | LookAwayFromUser
-    
+
+
 type Page
     = Login
     | MainMenu
@@ -53,7 +62,8 @@ type Page
     | PreferencesShopping
     | PreferencesSightseeing
     | Matcher
-    
-type PreferenceType 
+
+
+type PreferenceType
     = Shopping
     | Sightseeing

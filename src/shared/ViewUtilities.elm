@@ -3,49 +3,59 @@ module ViewUtilities exposing (gotoButton, blocks, faIcon)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events as Events
-
 import Model exposing (..)
-
 import Utilities
+
 
 faIcon : String -> Html msg
 faIcon iconName =
-    node "i" 
+    node "i"
         [ class iconName
         , attribute "aria-hidden" "true"
         ]
         []
 
+
 gotoButton : Page -> String -> Html Msg
 gotoButton page txt =
-    div [ class "form-signin" ] 
+    div [ class "form-signin" ]
         [ button
             [ class "btn btn-lg btn-primary btn-block"
             , type_ "undefined"
-            , Events.onClick (Goto page) 
+            , Events.onClick (Goto page)
             ]
             [ text txt ]
         ]
 
 
-blocks : List String -> List String ->  List Msg -> List String -> Html Msg
+blocks : List String -> List String -> List Msg -> List String -> Html Msg
 blocks prefList titles msgs images =
-    let 
-        titles_ = Utilities.listToTupleList titles ""
-        msgs_ = Utilities.listToTupleList msgs NoOp
-        image_ = Utilities.listToTupleList images ""
+    let
+        titles_ =
+            Utilities.listToTupleList titles ""
+
+        msgs_ =
+            Utilities.listToTupleList msgs NoOp
+
+        image_ =
+            Utilities.listToTupleList images ""
     in
-        div 
+        div
             []
             (List.map3 (blockRow prefList) titles_ msgs_ image_)
-        
 
-blockRow : List String -> (String, String) -> (Msg, Msg) -> (String, String) -> Html Msg
-blockRow prefList (s1, s2) (m1, m2) (i1, i2) =
+
+blockRow : List String -> ( String, String ) -> ( Msg, Msg ) -> ( String, String ) -> Html Msg
+blockRow prefList ( s1, s2 ) ( m1, m2 ) ( i1, i2 ) =
     let
-        size = "xs"
-        colWidth = 6
-        offset = 0
+        size =
+            "xs"
+
+        colWidth =
+            6
+
+        offset =
+            0
 
         firstClass =
             if offset > 0 then
@@ -53,7 +63,8 @@ blockRow prefList (s1, s2) (m1, m2) (i1, i2) =
             else
                 secondClass
 
-        secondClass = "col-" ++ size ++ "-" ++ toString colWidth
+        secondClass =
+            "col-" ++ size ++ "-" ++ toString colWidth
     in
         div
             [ class "row" ]
@@ -65,13 +76,17 @@ blockRow prefList (s1, s2) (m1, m2) (i1, i2) =
                 [ block prefList s2 m2 i2 ]
             ]
 
+
 block : List String -> String -> Msg -> String -> Html Msg
 block prefList title event image =
     let
-        rimClass = 
+        rimClass =
             case List.member title prefList of
-                True -> "BlockRimSelected"
-                False -> "BlockRim"
+                True ->
+                    "BlockRimSelected"
+
+                False ->
+                    "BlockRim"
     in
         if title /= "" then
             div
@@ -80,7 +95,7 @@ block prefList title event image =
                     [ class rimClass, Events.onClick event ]
                     [ div
                         [ class "Block"
-                        , style [ ("background-image", "url(" ++ image ++ ")" ) ]
+                        , style [ ( "background-image", "url(" ++ image ++ ")" ) ]
                         ]
                         []
                     ]
@@ -88,6 +103,5 @@ block prefList title event image =
                     [ style [ ( "text-align", "center" ) ] ]
                     [ text title ]
                 ]
-            else 
-                div [] []
-
+        else
+            div [] []

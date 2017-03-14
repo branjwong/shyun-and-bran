@@ -35,7 +35,7 @@ devModel =
             model.preferences
     in
         { model
-            | page = Matcher
+            | page = Login
         }
 
 

@@ -1,46 +1,47 @@
 module Login exposing (view)
 
-import Model exposing (..)
 import Html exposing (..)
+import Html.CssHelpers exposing (..)
 import Html.Attributes as Attr exposing (..)
 import Html.Events as Events exposing (..)
+import Model exposing (..)
+import SharedStyles
 import Localization
+
+
+{ id, class, classList } =
+    SharedStyles.loginNamespace
 
 
 view : Html Msg
 view =
     div
-        [ class "container" ]
+        [ Attr.class "container" ]
         [ div
-            [ class "form-signin" ]
+            [ class [ SharedStyles.FormSignIn ] ]
             [ h2
-                [ class "form-signin-heading" ]
+                [ class [ SharedStyles.SignInHeading ] ]
                 [ text (Localization.getLocal "login" "heading") ]
             , label
-                [ for "inputEmail", class "sr-only" ]
+                [ for "inputEmail", Attr.class "sr-only" ]
                 [ text (Localization.getLocal "login" "placeholder_email") ]
             , input
-                [ type_ "undefined"
-                , id "inputEmail"
-                , class "form-control"
+                [ type_ "email"
+                , class [ SharedStyles.FormControl ]
                 , placeholder (Localization.getLocal "login" "placeholder_email")
                 , required True
                 , autofocus True
                 ]
                 []
-            , label
-                [ for "inputPassword", class "sr-only" ]
-                [ text (Localization.getLocal "login" "placeholder_password") ]
             , input
-                [ type_ "undefined"
-                , id "inputPassword"
-                , class "form-control"
+                [ type_ "password"
+                , class [ SharedStyles.FormControl ]
                 , placeholder (Localization.getLocal "login" "placeholder_password")
                 , required True
                 ]
                 []
             , button
-                [ class "btn btn-lg btn-primary btn-block", type_ "undefined", Events.onClick (Goto MainMenu) ]
+                [ Attr.class "btn btn-lg btn-primary btn-block", type_ "undefined", Events.onClick (Goto MainMenu) ]
                 [ text (Localization.getLocal "login" "button") ]
             ]
         ]

@@ -87,18 +87,18 @@ block prefList title event image =
         rimClass =
             case List.member title prefList of
                 True ->
-                    "BlockRimSelected"
+                    BlockRimSelected
 
                 False ->
-                    "BlockRim"
+                    BlockRim
     in
         if title /= "" then
             div
-                [ Attr.class "BlockDiv" ]
+                [ class [ BlockDiv ] ]
                 [ div
-                    [ Attr.class rimClass, Events.onClick event ]
+                    [ class [ rimClass ], Events.onClick event ]
                     [ div
-                        [ Attr.class "Block"
+                        [ class [ Block ]
                         , style [ ( "background-image", "url(" ++ image ++ ")" ) ]
                         ]
                         []

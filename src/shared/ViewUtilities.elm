@@ -1,16 +1,21 @@
 module ViewUtilities exposing (gotoButton, blocks, faIcon)
 
 import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html.Attributes as Attr exposing (..)
 import Html.Events as Events
 import Model exposing (..)
 import Utilities
+import SharedStyles exposing (..)
+
+
+{ id, class, classList } =
+    SharedStyles.loginNamespace
 
 
 faIcon : String -> Html msg
 faIcon iconName =
     node "i"
-        [ class iconName
+        [ Attr.class iconName
         , attribute "aria-hidden" "true"
         ]
         []
@@ -18,10 +23,9 @@ faIcon iconName =
 
 gotoButton : Page -> String -> Html Msg
 gotoButton page txt =
-    div [ class "form-signin" ]
+    div [ class [ FormSignIn ] ]
         [ button
-            [ class "btn btn-lg btn-primary btn-block"
-            , type_ "undefined"
+            [ Attr.class "btn btn-lg btn-primary btn-block"
             , Events.onClick (Goto page)
             ]
             [ text txt ]
@@ -67,12 +71,12 @@ blockRow prefList ( s1, s2 ) ( m1, m2 ) ( i1, i2 ) =
             "col-" ++ size ++ "-" ++ toString colWidth
     in
         div
-            [ class "row" ]
+            [ Attr.class "row" ]
             [ div
-                [ class firstClass ]
+                [ Attr.class firstClass ]
                 [ block prefList s1 m1 i1 ]
             , div
-                [ class secondClass ]
+                [ Attr.class secondClass ]
                 [ block prefList s2 m2 i2 ]
             ]
 
@@ -90,11 +94,11 @@ block prefList title event image =
     in
         if title /= "" then
             div
-                [ class "BlockDiv" ]
+                [ Attr.class "BlockDiv" ]
                 [ div
-                    [ class rimClass, Events.onClick event ]
+                    [ Attr.class rimClass, Events.onClick event ]
                     [ div
-                        [ class "Block"
+                        [ Attr.class "Block"
                         , style [ ( "background-image", "url(" ++ image ++ ")" ) ]
                         ]
                         []

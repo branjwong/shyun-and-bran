@@ -1,4 +1,4 @@
-module LoginCss exposing (..)
+module MainCss exposing (..)
 
 import Css exposing (..)
 import Css.Namespace exposing (namespace)
@@ -45,5 +45,20 @@ css =
                     , borderTopRightRadius zero
                     ]
                 ]
+            ]
+        , class Block
+            [ height (px 80)
+            , backgroundColor (hex "323232")
+            ]
+        , class BlockRim
+            [ padding (px 5)
+            , backgroundColor (hex "FFF")
+            ]
+        , class BlockRimSelected
+            [ padding (px 5)
+            , backgroundColor (hex "3b2bbd")
+            ]
+        , class BlockDiv
+            [ marginTop (px 10)
             ]
         ]

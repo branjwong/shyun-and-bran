@@ -5,7 +5,7 @@ import Html.CssHelpers exposing (..)
 import Html.Attributes as Attr exposing (..)
 import Html.Events as Events exposing (..)
 import Model exposing (..)
-import SharedStyles
+import SharedStyles exposing (..)
 import Localization
 
 
@@ -18,16 +18,16 @@ view =
     div
         [ Attr.class "container" ]
         [ div
-            [ class [ SharedStyles.FormSignIn ] ]
+            [ class [ FormSignIn ] ]
             [ h2
-                [ class [ SharedStyles.SignInHeading ] ]
+                [ class [ SignInHeading ] ]
                 [ text (Localization.getLocal "login" "heading") ]
             , label
                 [ for "inputEmail", Attr.class "sr-only" ]
                 [ text (Localization.getLocal "login" "placeholder_email") ]
             , input
                 [ type_ "email"
-                , class [ SharedStyles.FormControl ]
+                , class [ FormControl ]
                 , placeholder (Localization.getLocal "login" "placeholder_email")
                 , required True
                 , autofocus True
@@ -35,7 +35,7 @@ view =
                 []
             , input
                 [ type_ "password"
-                , class [ SharedStyles.FormControl ]
+                , class [ FormControl ]
                 , placeholder (Localization.getLocal "login" "placeholder_password")
                 , required True
                 ]

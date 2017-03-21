@@ -8,6 +8,10 @@ type CssClasses
     | FormSignInHeading
     | FormControl
     | SignInHeading
+    | Block
+    | BlockRim
+    | BlockRimSelected
+    | BlockDiv
 
 
 type CssIds
@@ -16,4 +20,4 @@ type CssIds
 
 
 loginNamespace =
-    withNamespace "login"
+    withNamespace "main"

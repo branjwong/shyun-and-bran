@@ -61,4 +61,14 @@ css =
         , class BlockDiv
             [ marginTop (px 10)
             ]
+        , class FinderNavigationSideBar
+            [ backgroundColor (hex "BBB") ]
+        , class FinderFace
+            [ height (px 200)
+            , marginRight auto
+            , marginLeft auto
+            , display block
+            ]
+        , class FaArrow
+            [ textAlign center ]
         ]

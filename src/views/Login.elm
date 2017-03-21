@@ -5,8 +5,8 @@ import Html.CssHelpers exposing (..)
 import Html.Attributes as Attr exposing (..)
 import Html.Events as Events exposing (..)
 import Model exposing (..)
-import SharedStyles exposing (..)
 import Localization
+import SharedStyles exposing (..)
 
 
 { id, class, classList } =

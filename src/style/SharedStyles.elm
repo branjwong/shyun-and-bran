@@ -12,6 +12,9 @@ type CssClasses
     | BlockRim
     | BlockRimSelected
     | BlockDiv
+    | FinderNavigationSideBar
+    | FinderFace
+    | FaArrow
 
 
 type CssIds

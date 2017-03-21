@@ -5,12 +5,17 @@ import Html.Attributes as Attr exposing (..)
 import Html.Events as Events
 import Model exposing (..)
 import ViewUtilities exposing (faIcon)
+import SharedStyles exposing (..)
+
+
+{ id, class, classList } =
+    SharedStyles.loginNamespace
 
 
 view : Model -> Html Msg
 view model =
     div
-        [ class "container" ]
+        [ Attr.class "container" ]
         [ localProfile (testUser model)
         , ViewUtilities.gotoButton MainMenu "Back to Main Menu"
         ]
@@ -37,41 +42,39 @@ testUser model =
 localProfile : User -> Html Msg
 localProfile user =
     let
-        arrowStyle =
-            style
-                []
+        arrow str =
+            div
+                [ Attr.class "col-2"
+                , class [ FaArrow ]
+                ]
+                [ faIcon ("fa fa-arrow-circle-o-" ++ str) ]
     in
         div
-            [ class "thumbnail" ]
+            [ Attr.class "thumbnail" ]
             [ div
-                [ class "row" ]
-                [ div [ class "col-xs-2", arrowStyle ] [ faIcon "fa fa-arrow-left" ]
+                [ Attr.class "row align-items-center justify-content-center" ]
+                [ arrow "left"
                 , div
-                    [ class "col-xs-8" ]
+                    [ Attr.class "col" ]
                     [ div
                         [ style
                             [ ( "padding-top", "20px" ) ]
                         ]
                         [ img
                             [ src user.imgUrl
-                            , style
-                                [ ( "height", "200px" )
-                                , ( "margin-right", "auto" )
-                                , ( "margin-left", "auto" )
-                                , ( "display", "block" )
-                                ]
+                            , class [ FinderFace ]
                             , Events.onClick (LookAtUser user)
                             ]
                             []
                         ]
                     , div
-                        [ class "caption" ]
+                        [ Attr.class "caption" ]
                         [ h3 []
                             [ text user.profileName ]
                         , p []
                             [ text (toString user.preferences) ]
                         ]
                     ]
-                , div [ class "col-xs-2", arrowStyle ] [ faIcon "fa fa-arrow-right" ]
+                , arrow "right"
                 ]
             ]

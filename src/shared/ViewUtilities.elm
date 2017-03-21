@@ -51,34 +51,15 @@ blocks prefList titles msgs images =
 
 blockRow : List String -> ( String, String ) -> ( Msg, Msg ) -> ( String, String ) -> Html Msg
 blockRow prefList ( s1, s2 ) ( m1, m2 ) ( i1, i2 ) =
-    let
-        size =
-            "xs"
-
-        colWidth =
-            6
-
-        offset =
-            0
-
-        firstClass =
-            if offset > 0 then
-                secondClass ++ " col-" ++ size ++ "-offset-" ++ toString offset
-            else
-                secondClass
-
-        secondClass =
-            "col-" ++ size ++ "-" ++ toString colWidth
-    in
-        div
-            [ Attr.class "row" ]
-            [ div
-                [ Attr.class firstClass ]
-                [ block prefList s1 m1 i1 ]
-            , div
-                [ Attr.class secondClass ]
-                [ block prefList s2 m2 i2 ]
-            ]
+    div
+        [ Attr.class "row" ]
+        [ div
+            [ Attr.class "col" ]
+            [ block prefList s1 m1 i1 ]
+        , div
+            [ Attr.class "col" ]
+            [ block prefList s2 m2 i2 ]
+        ]
 
 
 block : List String -> String -> Msg -> String -> Html Msg

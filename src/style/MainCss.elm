@@ -81,4 +81,7 @@ css =
                     [ marginBottom zero ]
                 ]
             ]
+        , class FadeClass
+            [ color (hex "BBB")
+            ]
         ]

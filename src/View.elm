@@ -8,7 +8,6 @@ import Preferences.Root exposing (view)
 import Preferences.Shopping exposing (view)
 import Preferences.Sightseeing exposing (view)
 import Matcher.Finder exposing (view)
-import Matcher.Profile exposing (view)
 
 
 view : Model -> Html Msg
@@ -30,9 +29,4 @@ view model =
             Preferences.Sightseeing.view model
 
         Matcher ->
-            case model.userBeingViewed of
-                Nothing ->
-                    Matcher.Finder.view model
-
-                Just user ->
-                    Matcher.Profile.view user
+            Matcher.Finder.view model

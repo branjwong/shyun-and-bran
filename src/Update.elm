@@ -22,6 +22,34 @@ update msg model =
 
                 LookAwayFromUser ->
                     { model | userBeingViewed = Nothing }
+
+                Look direction ->
+                    case direction of
+                        Right ->
+                            { model
+                                | rightMatches = List.drop 1 model.rightMatches
+                                , leftMatches =
+                                    case List.head model.rightMatches of
+                                        Just user ->
+                                            user :: model.leftMatches
+
+                                        Nothing ->
+                                            model.leftMatches
+                                , userBeingViewed = Nothing
+                            }
+
+                        Left ->
+                            { model
+                                | leftMatches = List.drop 1 model.leftMatches
+                                , rightMatches =
+                                    case List.head model.leftMatches of
+                                        Just user ->
+                                            user :: model.rightMatches
+
+                                        Nothing ->
+                                            model.rightMatches
+                                , userBeingViewed = Nothing
+                            }
     in
         model_ ! [ Cmd.none ]
 

@@ -17,6 +17,7 @@ type CssClasses
     | FinderFigure
     | FinderFace
     | FinderInfo
+    | FadeClass
 
 
 type CssIds

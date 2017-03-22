@@ -16,29 +16,9 @@ view : Model -> Html Msg
 view model =
     div
         [ Attr.class "container" ]
-        [ localProfile (testUser)
+        [ localProfile model
         , ViewUtilities.gotoButton MainMenu "Back to Main Menu"
         ]
-
-
-testUser : User
-testUser =
-    let
-        name =
-            "Mayo Naise"
-
-        desc =
-            "I love going for walks in your mom's house."
-
-        url =
-            "http://www.sephora.com/contentimages/categories/makeup/CONTOURING/030515/animations/round/round_01_before.jpg?country_switch=ca&lang=en"
-
-        pref =
-            { shopping = [ "Flowers", "Clothes" ]
-            , sightseeing = [ "Your Mom's House", "My Mom's House" ]
-            }
-    in
-        User name url desc pref
 
 
 showInfos : User -> Html msg
@@ -61,43 +41,92 @@ createPill str =
     span [ Attr.class "badge badge-pill badge-default" ] [ text str ]
 
 
-localProfile : User -> Html Msg
-localProfile user =
+localProfile : Model -> Html Msg
+localProfile model =
     let
-        arrow str =
-            div
-                [ Attr.class "col-2 text-center" ]
-                [ ViewUtilities.faIcon ("fa fa-arrow-circle-o-" ++ str) ]
-    in
-        div
-            [ Attr.class "row align-items-center justify-content-center"
-            , class [ FinderBody ]
-            ]
-            [ arrow "left"
-            , div
-                [ Attr.class "col"
-                ]
-                [ h3
-                    [ Attr.class "text-center" ]
-                    [ text user.profileName ]
-                , node "figure"
-                    [ Attr.class "figure"
-                    , class [ FinderFigure ]
-                    ]
-                    [ img
-                        [ src user.imgUrl
-                        , Attr.class "figure-img img-fluid rounded"
-                        , class [ FinderFace ]
-                        , Events.onClick (LookAtUser user)
-                        ]
+        arrow model direction =
+            let
+                faClass =
+                    case direction of
+                        Left ->
+                            "fa fa-arrow-circle-o-left"
+
+                        Right ->
+                            "fa fa-arrow-circle-o-right"
+
+                event =
+                    if direction == Left && List.isEmpty model.leftMatches then
+                        NoOp
+                    else if direction == Right && List.length model.rightMatches <= 1 then
+                        NoOp
+                    else
+                        Look direction
+
+                arrowClass =
+                    if direction == Left && List.isEmpty model.leftMatches then
+                        [ FadeClass ]
+                    else if direction == Right && List.length model.rightMatches <= 1 then
+                        [ FadeClass ]
+                    else
                         []
-                    , node "figcaption"
-                        [ Attr.class "figure-caption text-center"
-                        , class [ FinderInfo ]
-                        ]
-                        [ showInfos user
-                        ]
+            in
+                div
+                    [ Attr.class "col-2 text-center"
+                    , Events.onClick event
+                    , class arrowClass
                     ]
-                ]
-            , arrow "right"
-            ]
+                    [ ViewUtilities.faIcon faClass ]
+    in
+        case List.head model.rightMatches of
+            Nothing ->
+                text "No Users To Look At"
+
+            Just user ->
+                let
+                    caption =
+                        case model.userBeingViewed of
+                            Just user ->
+                                text (toString user.description)
+
+                            Nothing ->
+                                showInfos user
+
+                    event =
+                        case model.userBeingViewed of
+                            Just user ->
+                                LookAwayFromUser
+
+                            Nothing ->
+                                LookAtUser user
+                in
+                    div
+                        [ Attr.class "row align-items-center justify-content-center"
+                        , class [ FinderBody ]
+                        ]
+                        [ arrow model Left
+                        , div
+                            [ Attr.class "col"
+                            ]
+                            [ h3
+                                [ Attr.class "text-center" ]
+                                [ text user.profileName ]
+                            , node "figure"
+                                [ Attr.class "figure"
+                                , class [ FinderFigure ]
+                                ]
+                                [ img
+                                    [ src user.imgUrl
+                                    , Attr.class "figure-img img-fluid rounded"
+                                    , class [ FinderFace ]
+                                    , Events.onClick event
+                                    ]
+                                    []
+                                , node "figcaption"
+                                    [ Attr.class "figure-caption text-center"
+                                    , class [ FinderInfo ]
+                                    ]
+                                    [ caption ]
+                                ]
+                            ]
+                        , arrow model Right
+                        ]

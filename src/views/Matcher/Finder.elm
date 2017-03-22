@@ -49,10 +49,10 @@ localProfile model =
                 faClass =
                     case direction of
                         Left ->
-                            "fa fa-arrow-circle-o-left"
+                            "fa fa-arrow-circle-o-left fa-2x"
 
                         Right ->
-                            "fa fa-arrow-circle-o-right"
+                            "fa fa-arrow-circle-o-right fa-2x"
 
                 event =
                     if direction == Left && List.isEmpty model.leftMatches then

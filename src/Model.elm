@@ -5,6 +5,8 @@ type alias Model =
     { page : Page
     , preferences : Preferences
     , userBeingViewed : Maybe User
+    , leftMatches : List User
+    , rightMatches : List User
     }
 
 
@@ -22,6 +24,8 @@ blankModel =
         , sightseeing = []
         }
     , userBeingViewed = Nothing
+    , leftMatches = []
+    , rightMatches = []
     }
 
 

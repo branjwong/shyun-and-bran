@@ -4,7 +4,7 @@ import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
 import Html.Events as Events
 import Model exposing (..)
-import ViewUtilities exposing (faIcon)
+import ViewUtilities
 import SharedStyles exposing (..)
 
 
@@ -16,27 +16,49 @@ view : Model -> Html Msg
 view model =
     div
         [ Attr.class "container" ]
-        [ localProfile (testUser model)
+        [ localProfile (testUser)
         , ViewUtilities.gotoButton MainMenu "Back to Main Menu"
         ]
 
 
-testUser : Model -> User
-testUser model =
+testUser : User
+testUser =
     let
         name =
             "Mayo Naise"
 
         desc =
-            "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit."
+            "I love going for walks in your mom's house."
 
         url =
             "http://www.sephora.com/contentimages/categories/makeup/CONTOURING/030515/animations/round/round_01_before.jpg?country_switch=ca&lang=en"
 
         pref =
-            model.preferences
+            { shopping = [ "Flowers", "Clothes" ]
+            , sightseeing = [ "Your Mom's House", "My Mom's House" ]
+            }
     in
         User name url desc pref
+
+
+showInfos : User -> Html msg
+showInfos user =
+    let
+        shopping =
+            user.preferences.shopping
+                |> List.map createPill
+
+        sightseeing =
+            user.preferences.sightseeing
+                |> List.map createPill
+    in
+        List.foldl List.append [] [ shopping, sightseeing ]
+            |> div []
+
+
+createPill : String -> Html msgs
+createPill str =
+    span [ Attr.class "badge badge-pill badge-default" ] [ text str ]
 
 
 localProfile : User -> Html Msg
@@ -44,37 +66,38 @@ localProfile user =
     let
         arrow str =
             div
-                [ Attr.class "col-2"
-                , class [ FaArrow ]
-                ]
-                [ faIcon ("fa fa-arrow-circle-o-" ++ str) ]
+                [ Attr.class "col-2 text-center" ]
+                [ ViewUtilities.faIcon ("fa fa-arrow-circle-o-" ++ str) ]
     in
         div
-            [ Attr.class "thumbnail" ]
-            [ div
-                [ Attr.class "row align-items-center justify-content-center" ]
-                [ arrow "left"
-                , div
-                    [ Attr.class "col" ]
-                    [ div
-                        [ style
-                            [ ( "padding-top", "20px" ) ]
+            [ Attr.class "row align-items-center justify-content-center"
+            , class [ FinderBody ]
+            ]
+            [ arrow "left"
+            , div
+                [ Attr.class "col"
+                ]
+                [ h3
+                    [ Attr.class "text-center" ]
+                    [ text user.profileName ]
+                , node "figure"
+                    [ Attr.class "figure"
+                    , class [ FinderFigure ]
+                    ]
+                    [ img
+                        [ src user.imgUrl
+                        , Attr.class "figure-img img-fluid rounded"
+                        , class [ FinderFace ]
+                        , Events.onClick (LookAtUser user)
                         ]
-                        [ img
-                            [ src user.imgUrl
-                            , class [ FinderFace ]
-                            , Events.onClick (LookAtUser user)
-                            ]
-                            []
+                        []
+                    , node "figcaption"
+                        [ Attr.class "figure-caption text-center"
+                        , class [ FinderInfo ]
                         ]
-                    , div
-                        [ Attr.class "caption" ]
-                        [ h3 []
-                            [ text user.profileName ]
-                        , p []
-                            [ text (toString user.preferences) ]
+                        [ showInfos user
                         ]
                     ]
-                , arrow "right"
                 ]
+            , arrow "right"
             ]

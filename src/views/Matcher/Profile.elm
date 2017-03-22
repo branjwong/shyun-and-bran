@@ -5,12 +5,17 @@ import Html.Attributes as Attr exposing (..)
 import Html.Events as Events
 import Model exposing (..)
 import ViewUtilities
+import SharedStyles exposing (..)
+
+
+{ id, class, classList } =
+    SharedStyles.loginNamespace
 
 
 view : User -> Html Msg
 view user =
     div
-        [ class "container" ]
+        [ Attr.class "container" ]
         [ localProfile user
         , ViewUtilities.gotoButton MainMenu "Back to Main Menu"
         ]
@@ -18,27 +23,41 @@ view user =
 
 localProfile : User -> Html Msg
 localProfile user =
-    div [ class "thumbnail" ]
-        [ div
-            [ style
-                [ ( "padding-top", "20px" ) ]
+    let
+        arrow str =
+            div
+                [ Attr.class "col-2 text-center" ]
+                [ ViewUtilities.faIcon ("fa fa-arrow-circle-o-" ++ str) ]
+    in
+        div
+            [ Attr.class "row align-items-center justify-content-center"
+            , class [ FinderBody ]
             ]
-            [ img
-                [ src user.imgUrl
-                , style
-                    [ ( "height", "200px" )
-                    , ( "margin-right", "auto" )
-                    , ( "margin-left", "auto" )
-                    , ( "display", "block" )
-                    ]
-                , Events.onClick LookAwayFromUser
+            [ arrow "left"
+            , div
+                [ Attr.class "col"
                 ]
-                []
+                [ h3
+                    [ Attr.class "text-center" ]
+                    [ text user.profileName ]
+                , node "figure"
+                    [ Attr.class "figure"
+                    , class [ FinderFigure ]
+                    ]
+                    [ img
+                        [ src user.imgUrl
+                        , Attr.class "figure-img img-fluid rounded"
+                        , class [ FinderFace ]
+                        , Events.onClick LookAwayFromUser
+                        ]
+                        []
+                    , node "figcaption"
+                        [ Attr.class "figure-caption text-center"
+                        , class [ FinderInfo ]
+                        ]
+                        [ text (toString user.description)
+                        ]
+                    ]
+                ]
+            , arrow "right"
             ]
-        , div [ class "caption" ]
-            [ h3 []
-                [ text user.profileName ]
-            , p []
-                [ text (toString user.description) ]
-            ]
-        ]

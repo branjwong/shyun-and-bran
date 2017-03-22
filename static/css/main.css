@@ -1,0 +1,94 @@
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.mainFormSignIn {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.mainFormSignIn  .mainFormSignInHeading {
+    margin-bottom: 10px;
+}
+
+.mainFormSignIn  .mainFormControl {
+    position: relative;
+    height: auto;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.mainFormSignIn  .mainFormControl:focus {
+    z-index: 2;
+}
+
+.mainFormSignIn  input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.mainFormSignIn  input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.mainBlock {
+    height: 80px;
+    background-color: #323232;
+}
+
+.mainBlockRim {
+    padding: 5px;
+    background-color: #FFF;
+}
+
+.mainBlockRimSelected {
+    padding: 5px;
+    background-color: #3b2bbd;
+}
+
+.mainBlockDiv {
+    margin-top: 10px;
+}
+
+.mainFinderBody {
+    height: 350px;
+}
+
+.mainFinderNavigationSideBar {
+    background-color: #BBB;
+}
+
+.mainFinderFace {
+    height: 200px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
+
+.mainFinderFigure {
+    display: block;
+}
+
+.mainFinderInfo {
+    font-size: 10px;
+}
+
+.mainFinderInfo  p {
+    margin-bottom: 0;
+}
+
+.mainFadeClass {
+    color: #BBB;
+}

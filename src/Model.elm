@@ -19,18 +19,23 @@ type alias Preferences =
     }
 
 
-blankModel : Model
+blankModel : ( Model, Cmd Msg )
 blankModel =
-    { page = Login
-    , navbarState = Tuple.first (Navbar.initialState NavbarMsg)
-    , preferences =
-        { shopping = []
-        , sightseeing = []
+    let
+        ( state, cmd ) =
+            Navbar.initialState NavbarMsg
+    in
+        { page = Login
+        , navbarState = state
+        , preferences =
+            { shopping = []
+            , sightseeing = []
+            }
+        , userBeingViewed = Nothing
+        , leftMatches = []
+        , rightMatches = []
         }
-    , userBeingViewed = Nothing
-    , leftMatches = []
-    , rightMatches = []
-    }
+            ! [ cmd ]
 
 
 type alias User =

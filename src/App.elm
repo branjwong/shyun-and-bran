@@ -20,7 +20,7 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    DevSettings.devModel ! [ Cmd.none ]
+    DevSettings.devModel
 
 
 subscriptions : Model -> Sub Msg

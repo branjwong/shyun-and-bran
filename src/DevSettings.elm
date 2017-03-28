@@ -3,19 +3,20 @@ module DevSettings exposing (devModel)
 import Model exposing (..)
 
 
-devModel : Model
+devModel : ( Model, Cmd Msg )
 devModel =
     let
-        model =
+        ( model, cmd ) =
             blankModel
 
         preferences =
             model.preferences
     in
         { model
-            | page = MainMenu
+            | page = Login
             , rightMatches = testRightMatches
         }
+            ! [ cmd ]
 
 
 testRightMatches : List User

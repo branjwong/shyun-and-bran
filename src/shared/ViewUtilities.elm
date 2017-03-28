@@ -24,8 +24,9 @@ navbar model =
             |> Navbar.items
                 [ Navbar.itemLink [ Events.onClick (Goto PreferencesRoot) ] [ text (Localization.getLocal "navbar" "preferences") ]
                 , Navbar.itemLink [ Events.onClick (Goto Matcher) ] [ text (Localization.getLocal "navbar" "matcher") ]
-                , Navbar.itemLink [ Events.onClick (Goto Login) ] [ text (Localization.getLocal "navbar" "logout") ]
                 ]
+            |> Navbar.customItems
+                [ Navbar.textItem [ Events.onClick (Goto Login) ] [ text (Localization.getLocal "navbar" "logout") ] ]
             |> Navbar.view model.navbarState
         ]
 

@@ -6,6 +6,9 @@ import Html.Events as Events
 import Model exposing (..)
 import ViewUtilities
 import SharedStyles exposing (..)
+import Bootstrap.Grid as Grid
+import Bootstrap.Grid.Col as Col
+import Bootstrap.Grid.Row as Row
 
 
 { id, class, classList } =
@@ -14,8 +17,7 @@ import SharedStyles exposing (..)
 
 view : Model -> Html Msg
 view model =
-    div
-        [ Attr.class "container" ]
+    Grid.container []
         [ localProfile model
         , ViewUtilities.gotoButton MainMenu "Back to Main Menu"
         ]
@@ -70,10 +72,13 @@ localProfile model =
                     else
                         []
             in
-                div
-                    [ Attr.class "col-2 text-center"
-                    , Events.onClick event
-                    , class arrowClass
+                Grid.col
+                    [ Col.attrs
+                        [ Attr.class "text-center"
+                        , Events.onClick event
+                        , class arrowClass
+                        ]
+                    , Col.xs2
                     ]
                     [ ViewUtilities.faIcon faClass ]
     in
@@ -99,14 +104,14 @@ localProfile model =
                             Nothing ->
                                 LookAtUser user
                 in
-                    div
-                        [ Attr.class "row align-items-center justify-content-center"
-                        , class [ FinderBody ]
+                    Grid.row
+                        [ Row.attrs
+                            [ Attr.class "align-items-center justify-content-center"
+                            , class [ FinderBody ]
+                            ]
                         ]
                         [ arrow model Left
-                        , div
-                            [ Attr.class "col"
-                            ]
+                        , Grid.col []
                             [ h3
                                 [ Attr.class "text-center" ]
                                 [ text user.profileName ]

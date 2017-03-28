@@ -4,7 +4,8 @@ import Html.CssHelpers exposing (withNamespace)
 
 
 type CssClasses
-    = FormSignIn
+    = Navbar
+    | FormSignIn
     | FormSignInHeading
     | FormControl
     | SignInHeading

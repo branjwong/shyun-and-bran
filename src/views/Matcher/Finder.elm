@@ -18,7 +18,8 @@ import Bootstrap.Grid.Row as Row
 view : Model -> Html Msg
 view model =
     Grid.container []
-        [ localProfile model
+        [ ViewUtilities.navbar model
+        , localProfile model
         , ViewUtilities.gotoButton MainMenu "Back to Main Menu"
         ]
 

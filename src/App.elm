@@ -1,9 +1,11 @@
 module App exposing (main)
 
-import Model exposing (Model, Msg)
+import Model exposing (Model, Msg(..))
+import DevSettings
 import Update
 import View
 import Html exposing (program)
+import Bootstrap.Navbar as Navbar
 
 
 main : Program Never Model Msg
@@ -12,10 +14,15 @@ main =
         { init = init
         , update = Update.update
         , view = View.view
-        , subscriptions = (\_ -> Sub.none)
+        , subscriptions = subscriptions
         }
 
 
 init : ( Model, Cmd Msg )
 init =
-    Model.devModel ! [ Cmd.none ]
+    DevSettings.devModel ! [ Cmd.none ]
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Navbar.subscriptions model.navbarState NavbarMsg

@@ -31,7 +31,8 @@ view model =
             List.map (\_ -> "") items
     in
         Grid.container []
-            [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Which searchables would you like to change?" ]
+            [ ViewUtilities.navbar model
+            , h2 [ style [ ( "text-align", "center" ) ] ] [ text "Which searchables would you like to change?" ]
             , ViewUtilities.blocks [] items msgs images
             , ViewUtilities.gotoButton MainMenu "Back to Main Menu"
             ]

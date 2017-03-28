@@ -17,10 +17,10 @@ view model =
             Login.view
 
         MainMenu ->
-            MainMenu.view
+            MainMenu.view model
 
         PreferencesRoot ->
-            Preferences.Root.view Model.blankModel
+            Preferences.Root.view model
 
         PreferencesShopping ->
             Preferences.Shopping.view model

@@ -7,7 +7,15 @@ import Dict exposing (Dict)
 englishJson : String
 englishJson =
     """
-    { "login" :
+    { "general" :
+        { "app_name" : "ShowMeAround"
+        }
+    , "navbar" :
+        { "preferences" : "Searchables"
+        , "matcher" : "Find Friends"
+        , "logout" : "Logout"
+        }
+    , "login" :
         { "heading" : "Please Sign In"
         , "placeholder_email" : "Email address"
         , "placeholder_password" : "Password"
@@ -15,9 +23,6 @@ englishJson =
         }
     , "mainMenu" :
         { "title" : "Main Menu"
-        , "button_preferences" : "Searchables"
-        , "button_matcher" : "Find Friends"
-        , "button_logout" : "Logout"
         }
     }
     """

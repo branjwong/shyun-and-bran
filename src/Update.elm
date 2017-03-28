@@ -1,6 +1,7 @@
 module Update exposing (..)
 
 import Model exposing (..)
+import Bootstrap.Navbar as Navbar
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -12,7 +13,13 @@ update msg model =
                     model
 
                 Goto page ->
-                    { model | page = page }
+                    { model
+                        | page = page
+                        , navbarState = Tuple.first (Navbar.initialState NavbarMsg)
+                    }
+
+                NavbarMsg state ->
+                    { model | navbarState = state }
 
                 AddPreference prefType pref ->
                     let

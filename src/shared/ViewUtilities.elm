@@ -1,4 +1,4 @@
-module ViewUtilities exposing (gotoButton, blocks, faIcon)
+module ViewUtilities exposing (gotoButton, blocks, faIcon, navbar)
 
 import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
@@ -7,10 +7,27 @@ import Model exposing (..)
 import Utilities
 import SharedStyles exposing (..)
 import Bootstrap.Grid as Grid
+import Bootstrap.Navbar as Navbar
+import Localization
 
 
 { id, class, classList } =
     SharedStyles.loginNamespace
+
+
+navbar : Model -> Html Msg
+navbar model =
+    div [ class [ Navbar ] ]
+        [ Navbar.config NavbarMsg
+            |> Navbar.withAnimation
+            |> Navbar.brand [] [ text (Localization.getLocal "general" "app_name") ]
+            |> Navbar.items
+                [ Navbar.itemLink [ Events.onClick (Goto PreferencesRoot) ] [ text (Localization.getLocal "navbar" "preferences") ]
+                , Navbar.itemLink [ Events.onClick (Goto Matcher) ] [ text (Localization.getLocal "navbar" "matcher") ]
+                , Navbar.itemLink [ Events.onClick (Goto Login) ] [ text (Localization.getLocal "navbar" "logout") ]
+                ]
+            |> Navbar.view model.navbarState
+        ]
 
 
 faIcon : String -> Html msg

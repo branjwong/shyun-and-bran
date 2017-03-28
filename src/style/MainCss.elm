@@ -13,6 +13,8 @@ css =
             , paddingBottom (px 40)
             , backgroundColor (hex "eee")
             ]
+        , class Navbar
+            [ paddingBottom (px 20) ]
         , class FormSignIn
             [ maxWidth (px 330)
             , padding (px 15)

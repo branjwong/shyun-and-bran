@@ -4,6 +4,10 @@ body {
     background-color: #eee;
 }
 
+.mainNavbar {
+    padding-bottom: 20px;
+}
+
 .mainFormSignIn {
     max-width: 330px;
     padding: 15px;

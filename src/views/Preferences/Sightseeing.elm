@@ -28,7 +28,8 @@ view model =
             List.map (AddPreference Sightseeing) items
     in
         Grid.container []
-            [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Sightseeing Searchables" ]
+            [ ViewUtilities.navbar model
+            , h2 [ style [ ( "text-align", "center" ) ] ] [ text "Sightseeing Searchables" ]
             , ViewUtilities.blocks model.preferences.sightseeing items msgs images
             , ViewUtilities.gotoButton PreferencesRoot "Back to Searchables Select"
             ]

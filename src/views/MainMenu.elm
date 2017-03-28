@@ -8,11 +8,12 @@ import ViewUtilities
 import Bootstrap.Grid as Grid
 
 
-view : Html Msg
-view =
+view : Model -> Html Msg
+view model =
     Grid.container []
-        [ h2 [ style [ ( "text-align", "center" ) ] ] [ text (Localization.getLocal "mainMenu" "title") ]
-        , ViewUtilities.gotoButton PreferencesRoot (Localization.getLocal "mainMenu" "button_preferences")
-        , ViewUtilities.gotoButton Matcher (Localization.getLocal "mainMenu" "button_matcher")
-        , ViewUtilities.gotoButton Login (Localization.getLocal "mainMenu" "button_logout")
+        [ ViewUtilities.navbar model
+        , h2 [ style [ ( "text-align", "center" ) ] ] [ text (Localization.getLocal "mainMenu" "title") ]
+        , ViewUtilities.gotoButton PreferencesRoot (Localization.getLocal "navbar" "preferences")
+        , ViewUtilities.gotoButton Matcher (Localization.getLocal "navbar" "matcher")
+        , ViewUtilities.gotoButton Login (Localization.getLocal "navbar" "logout")
         ]

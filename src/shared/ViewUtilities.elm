@@ -6,6 +6,7 @@ import Html.Events as Events
 import Model exposing (..)
 import Utilities
 import SharedStyles exposing (..)
+import Bootstrap.Grid as Grid
 
 
 { id, class, classList } =
@@ -51,13 +52,10 @@ blocks prefList titles msgs images =
 
 blockRow : List String -> ( String, String ) -> ( Msg, Msg ) -> ( String, String ) -> Html Msg
 blockRow prefList ( s1, s2 ) ( m1, m2 ) ( i1, i2 ) =
-    div
-        [ Attr.class "row" ]
-        [ div
-            [ Attr.class "col" ]
+    Grid.row []
+        [ Grid.col []
             [ block prefList s1 m1 i1 ]
-        , div
-            [ Attr.class "col" ]
+        , Grid.col []
             [ block prefList s2 m2 i2 ]
         ]
 

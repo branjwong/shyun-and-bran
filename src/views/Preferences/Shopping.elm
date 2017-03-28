@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 import Model exposing (..)
 import Utilities
 import ViewUtilities
+import Bootstrap.Grid as Grid
 
 
 view : Model -> Html Msg
@@ -26,8 +27,7 @@ view model =
         msgs =
             List.map (AddPreference Shopping) items
     in
-        div
-            [ class "container" ]
+        Grid.container []
             [ h2 [ style [ ( "text-align", "center" ) ] ] [ text "Shopping Searchables" ]
             , ViewUtilities.blocks model.preferences.shopping items msgs images
             , ViewUtilities.gotoButton PreferencesRoot "Back to Searchables Select"

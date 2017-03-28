@@ -1,2 +1,2 @@
 git pull
-sh elm-build.sh
+sh app-build.sh

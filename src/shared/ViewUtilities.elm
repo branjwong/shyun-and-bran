@@ -20,7 +20,7 @@ navbar model =
     div [ class [ Navbar ] ]
         [ Navbar.config NavbarMsg
             |> Navbar.withAnimation
-            |> Navbar.brand [] [ text (Localization.getLocal "general" "app_name") ]
+            |> Navbar.brand [ Events.onClick (Goto MainMenu) ] [ text (Localization.getLocal "general" "app_name") ]
             |> Navbar.items
                 [ Navbar.itemLink [ Events.onClick (Goto PreferencesRoot) ] [ text (Localization.getLocal "navbar" "preferences") ]
                 , Navbar.itemLink [ Events.onClick (Goto Matcher) ] [ text (Localization.getLocal "navbar" "matcher") ]

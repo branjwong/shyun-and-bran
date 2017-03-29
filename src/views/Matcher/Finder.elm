@@ -20,7 +20,6 @@ view model =
     Grid.container []
         [ ViewUtilities.navbar model
         , localProfile model
-        , ViewUtilities.gotoButton MainMenu "Back to Main Menu"
         ]
 
 

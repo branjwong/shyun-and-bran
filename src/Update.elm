@@ -4,25 +4,17 @@ import Model exposing (..)
 import Bootstrap.Navbar as Navbar
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+updateModel : Msg -> Model -> Model
+updateModel msg model =
     case Debug.log "update" msg of
         NoOp ->
-            model ! [ Cmd.none ]
+            model
 
-        Goto page ->
-            let
-                ( state, cmd ) =
-                    Navbar.initialState NavbarMsg
-            in
-                { model
-                    | page = page
-                    , navbarState = state
-                }
-                    ! [ cmd ]
+        Goto _ ->
+            model
 
         NavbarMsg state ->
-            { model | navbarState = state } ! [ Cmd.none ]
+            { model | navbarState = state }
 
         AddPreference prefType pref ->
             let
@@ -39,7 +31,6 @@ update msg model =
                                             | shopping = List.filter (\str -> str /= pref) model.preferences.shopping
                                         }
                                 }
-                                    ! [ Cmd.none ]
 
                             False ->
                                 { model
@@ -48,7 +39,6 @@ update msg model =
                                             | shopping = (pref :: model.preferences.shopping)
                                         }
                                 }
-                                    ! [ Cmd.none ]
 
                     Sightseeing ->
                         case List.member pref model.preferences.sightseeing of
@@ -59,7 +49,6 @@ update msg model =
                                             | sightseeing = List.filter (\str -> str /= pref) model.preferences.sightseeing
                                         }
                                 }
-                                    ! [ Cmd.none ]
 
                             False ->
                                 { model
@@ -68,13 +57,12 @@ update msg model =
                                             | sightseeing = (pref :: model.preferences.sightseeing)
                                         }
                                 }
-                                    ! [ Cmd.none ]
 
         LookAtUser user ->
-            { model | userBeingViewed = Just user } ! [ Cmd.none ]
+            { model | userBeingViewed = Just user }
 
         LookAwayFromUser ->
-            { model | userBeingViewed = Nothing } ! [ Cmd.none ]
+            { model | userBeingViewed = Nothing }
 
         Look direction ->
             case direction of
@@ -90,7 +78,6 @@ update msg model =
                                     model.leftMatches
                         , userBeingViewed = Nothing
                     }
-                        ! [ Cmd.none ]
 
                 Left ->
                     { model
@@ -104,4 +91,21 @@ update msg model =
                                     model.rightMatches
                         , userBeingViewed = Nothing
                     }
-                        ! [ Cmd.none ]
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        Goto page ->
+            let
+                ( state, cmd ) =
+                    Navbar.initialState NavbarMsg
+            in
+                { model
+                    | page = page
+                    , navbarState = state
+                }
+                    ! [ cmd ]
+
+        _ ->
+            (updateModel msg model) ! [ Cmd.none ]

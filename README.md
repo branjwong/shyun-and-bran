@@ -12,7 +12,18 @@ https://docs.google.com/document/d/1fTZI3jGCxygpydWMZkIeD4iRpsHKJXXvJkInywPgPfs
 * True Backend: tbd
   * Options: Haskell, PHP
   
+## Shyun Instructions
 
+* `git pull`
+* `sh app-build.sh`
+* open index.html
 
+## Backend Instructions
 
+pip install --editable .
 
+export FLASK_APP=flaskr
+export FLASK_DEBUG=true
+flask initdb
+
+flask run

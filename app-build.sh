@@ -4,6 +4,4 @@
 # When adding a new page, make sure the the script entry is added as well.
 # Needs '&&' so that the script stops when it hits a compiler error.
 
-elm-make ./src/App.elm --output ./static/app.js
-
-# elm-make ./src/App.elm
+elm-make ./client/App.elm --output ./backend/app/static/app/app.js

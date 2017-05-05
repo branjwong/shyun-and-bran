@@ -1,7 +1,8 @@
-module Localization exposing (getLocal)
+module Localization exposing (getLocal, localizationDecoder, english)
 
 import Json.Decode as Decode exposing (Decoder)
 import Dict exposing (Dict)
+import Http
 
 
 englishJson : String

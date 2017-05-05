@@ -9,10 +9,19 @@ import SharedStyles exposing (..)
 import Bootstrap.Grid as Grid
 import Bootstrap.Navbar as Navbar
 import Localization
+import Dict
 
 
 { id, class, classList } =
     SharedStyles.loginNamespace
+
+
+getLocal : Model -> String -> String -> String
+getLocal model pageKey textKey =
+    Dict.get pageKey model.localization
+        |> Maybe.withDefault Dict.empty
+        |> Dict.get textKey
+        |> Maybe.withDefault ""
 
 
 navbar : Model -> Html Msg
@@ -20,7 +29,7 @@ navbar model =
     div [ class [ Navbar ] ]
         [ Navbar.config NavbarMsg
             |> Navbar.withAnimation
-            |> Navbar.brand [ Events.onClick (Goto MainMenu) ] [ text (Localization.getLocal "general" "app_name") ]
+            |> Navbar.brand [ Events.onClick (Goto MainMenu) ] [ text (getLocal model "general" "app_name") ]
             |> Navbar.items
                 [ Navbar.itemLink [ Events.onClick (Goto PreferencesRoot) ] [ text (Localization.getLocal "navbar" "preferences") ]
                 , Navbar.itemLink [ Events.onClick (Goto Matcher) ] [ text (Localization.getLocal "navbar" "matcher") ]

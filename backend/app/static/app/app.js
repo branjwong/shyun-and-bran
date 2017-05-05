@@ -9459,6 +9459,367 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
+var _elm_lang$http$Native_Http = function() {
+
+
+// ENCODING AND DECODING
+
+function encodeUri(string)
+{
+	return encodeURIComponent(string);
+}
+
+function decodeUri(string)
+{
+	try
+	{
+		return _elm_lang$core$Maybe$Just(decodeURIComponent(string));
+	}
+	catch(e)
+	{
+		return _elm_lang$core$Maybe$Nothing;
+	}
+}
+
+
+// SEND REQUEST
+
+function toTask(request, maybeProgress)
+{
+	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
+	{
+		var xhr = new XMLHttpRequest();
+
+		configureProgress(xhr, maybeProgress);
+
+		xhr.addEventListener('error', function() {
+			callback(_elm_lang$core$Native_Scheduler.fail({ ctor: 'NetworkError' }));
+		});
+		xhr.addEventListener('timeout', function() {
+			callback(_elm_lang$core$Native_Scheduler.fail({ ctor: 'Timeout' }));
+		});
+		xhr.addEventListener('load', function() {
+			callback(handleResponse(xhr, request.expect.responseToResult));
+		});
+
+		try
+		{
+			xhr.open(request.method, request.url, true);
+		}
+		catch (e)
+		{
+			return callback(_elm_lang$core$Native_Scheduler.fail({ ctor: 'BadUrl', _0: request.url }));
+		}
+
+		configureRequest(xhr, request);
+		send(xhr, request.body);
+
+		return function() { xhr.abort(); };
+	});
+}
+
+function configureProgress(xhr, maybeProgress)
+{
+	if (maybeProgress.ctor === 'Nothing')
+	{
+		return;
+	}
+
+	xhr.addEventListener('progress', function(event) {
+		if (!event.lengthComputable)
+		{
+			return;
+		}
+		_elm_lang$core$Native_Scheduler.rawSpawn(maybeProgress._0({
+			bytes: event.loaded,
+			bytesExpected: event.total
+		}));
+	});
+}
+
+function configureRequest(xhr, request)
+{
+	function setHeader(pair)
+	{
+		xhr.setRequestHeader(pair._0, pair._1);
+	}
+
+	A2(_elm_lang$core$List$map, setHeader, request.headers);
+	xhr.responseType = request.expect.responseType;
+	xhr.withCredentials = request.withCredentials;
+
+	if (request.timeout.ctor === 'Just')
+	{
+		xhr.timeout = request.timeout._0;
+	}
+}
+
+function send(xhr, body)
+{
+	switch (body.ctor)
+	{
+		case 'EmptyBody':
+			xhr.send();
+			return;
+
+		case 'StringBody':
+			xhr.setRequestHeader('Content-Type', body._0);
+			xhr.send(body._1);
+			return;
+
+		case 'FormDataBody':
+			xhr.send(body._0);
+			return;
+	}
+}
+
+
+// RESPONSES
+
+function handleResponse(xhr, responseToResult)
+{
+	var response = toResponse(xhr);
+
+	if (xhr.status < 200 || 300 <= xhr.status)
+	{
+		response.body = xhr.responseText;
+		return _elm_lang$core$Native_Scheduler.fail({
+			ctor: 'BadStatus',
+			_0: response
+		});
+	}
+
+	var result = responseToResult(response);
+
+	if (result.ctor === 'Ok')
+	{
+		return _elm_lang$core$Native_Scheduler.succeed(result._0);
+	}
+	else
+	{
+		response.body = xhr.responseText;
+		return _elm_lang$core$Native_Scheduler.fail({
+			ctor: 'BadPayload',
+			_0: result._0,
+			_1: response
+		});
+	}
+}
+
+function toResponse(xhr)
+{
+	return {
+		status: { code: xhr.status, message: xhr.statusText },
+		headers: parseHeaders(xhr.getAllResponseHeaders()),
+		url: xhr.responseURL,
+		body: xhr.response
+	};
+}
+
+function parseHeaders(rawHeaders)
+{
+	var headers = _elm_lang$core$Dict$empty;
+
+	if (!rawHeaders)
+	{
+		return headers;
+	}
+
+	var headerPairs = rawHeaders.split('\u000d\u000a');
+	for (var i = headerPairs.length; i--; )
+	{
+		var headerPair = headerPairs[i];
+		var index = headerPair.indexOf('\u003a\u0020');
+		if (index > 0)
+		{
+			var key = headerPair.substring(0, index);
+			var value = headerPair.substring(index + 2);
+
+			headers = A3(_elm_lang$core$Dict$update, key, function(oldValue) {
+				if (oldValue.ctor === 'Just')
+				{
+					return _elm_lang$core$Maybe$Just(value + ', ' + oldValue._0);
+				}
+				return _elm_lang$core$Maybe$Just(value);
+			}, headers);
+		}
+	}
+
+	return headers;
+}
+
+
+// EXPECTORS
+
+function expectStringResponse(responseToResult)
+{
+	return {
+		responseType: 'text',
+		responseToResult: responseToResult
+	};
+}
+
+function mapExpect(func, expect)
+{
+	return {
+		responseType: expect.responseType,
+		responseToResult: function(response) {
+			var convertedResponse = expect.responseToResult(response);
+			return A2(_elm_lang$core$Result$map, func, convertedResponse);
+		}
+	};
+}
+
+
+// BODY
+
+function multipart(parts)
+{
+	var formData = new FormData();
+
+	while (parts.ctor !== '[]')
+	{
+		var part = parts._0;
+		formData.append(part._0, part._1);
+		parts = parts._1;
+	}
+
+	return { ctor: 'FormDataBody', _0: formData };
+}
+
+return {
+	toTask: F2(toTask),
+	expectStringResponse: expectStringResponse,
+	mapExpect: F2(mapExpect),
+	multipart: multipart,
+	encodeUri: encodeUri,
+	decodeUri: decodeUri
+};
+
+}();
+
+var _elm_lang$http$Http_Internal$map = F2(
+	function (func, request) {
+		return _elm_lang$core$Native_Utils.update(
+			request,
+			{
+				expect: A2(_elm_lang$http$Native_Http.mapExpect, func, request.expect)
+			});
+	});
+var _elm_lang$http$Http_Internal$RawRequest = F7(
+	function (a, b, c, d, e, f, g) {
+		return {method: a, headers: b, url: c, body: d, expect: e, timeout: f, withCredentials: g};
+	});
+var _elm_lang$http$Http_Internal$Request = function (a) {
+	return {ctor: 'Request', _0: a};
+};
+var _elm_lang$http$Http_Internal$Expect = {ctor: 'Expect'};
+var _elm_lang$http$Http_Internal$FormDataBody = {ctor: 'FormDataBody'};
+var _elm_lang$http$Http_Internal$StringBody = F2(
+	function (a, b) {
+		return {ctor: 'StringBody', _0: a, _1: b};
+	});
+var _elm_lang$http$Http_Internal$EmptyBody = {ctor: 'EmptyBody'};
+var _elm_lang$http$Http_Internal$Header = F2(
+	function (a, b) {
+		return {ctor: 'Header', _0: a, _1: b};
+	});
+
+var _elm_lang$http$Http$decodeUri = _elm_lang$http$Native_Http.decodeUri;
+var _elm_lang$http$Http$encodeUri = _elm_lang$http$Native_Http.encodeUri;
+var _elm_lang$http$Http$expectStringResponse = _elm_lang$http$Native_Http.expectStringResponse;
+var _elm_lang$http$Http$expectJson = function (decoder) {
+	return _elm_lang$http$Http$expectStringResponse(
+		function (response) {
+			return A2(_elm_lang$core$Json_Decode$decodeString, decoder, response.body);
+		});
+};
+var _elm_lang$http$Http$expectString = _elm_lang$http$Http$expectStringResponse(
+	function (response) {
+		return _elm_lang$core$Result$Ok(response.body);
+	});
+var _elm_lang$http$Http$multipartBody = _elm_lang$http$Native_Http.multipart;
+var _elm_lang$http$Http$stringBody = _elm_lang$http$Http_Internal$StringBody;
+var _elm_lang$http$Http$jsonBody = function (value) {
+	return A2(
+		_elm_lang$http$Http_Internal$StringBody,
+		'application/json',
+		A2(_elm_lang$core$Json_Encode$encode, 0, value));
+};
+var _elm_lang$http$Http$emptyBody = _elm_lang$http$Http_Internal$EmptyBody;
+var _elm_lang$http$Http$header = _elm_lang$http$Http_Internal$Header;
+var _elm_lang$http$Http$request = _elm_lang$http$Http_Internal$Request;
+var _elm_lang$http$Http$post = F3(
+	function (url, body, decoder) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'POST',
+				headers: {ctor: '[]'},
+				url: url,
+				body: body,
+				expect: _elm_lang$http$Http$expectJson(decoder),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
+var _elm_lang$http$Http$get = F2(
+	function (url, decoder) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'GET',
+				headers: {ctor: '[]'},
+				url: url,
+				body: _elm_lang$http$Http$emptyBody,
+				expect: _elm_lang$http$Http$expectJson(decoder),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
+var _elm_lang$http$Http$getString = function (url) {
+	return _elm_lang$http$Http$request(
+		{
+			method: 'GET',
+			headers: {ctor: '[]'},
+			url: url,
+			body: _elm_lang$http$Http$emptyBody,
+			expect: _elm_lang$http$Http$expectString,
+			timeout: _elm_lang$core$Maybe$Nothing,
+			withCredentials: false
+		});
+};
+var _elm_lang$http$Http$toTask = function (_p0) {
+	var _p1 = _p0;
+	return A2(_elm_lang$http$Native_Http.toTask, _p1._0, _elm_lang$core$Maybe$Nothing);
+};
+var _elm_lang$http$Http$send = F2(
+	function (resultToMessage, request) {
+		return A2(
+			_elm_lang$core$Task$attempt,
+			resultToMessage,
+			_elm_lang$http$Http$toTask(request));
+	});
+var _elm_lang$http$Http$Response = F4(
+	function (a, b, c, d) {
+		return {url: a, status: b, headers: c, body: d};
+	});
+var _elm_lang$http$Http$BadPayload = F2(
+	function (a, b) {
+		return {ctor: 'BadPayload', _0: a, _1: b};
+	});
+var _elm_lang$http$Http$BadStatus = function (a) {
+	return {ctor: 'BadStatus', _0: a};
+};
+var _elm_lang$http$Http$NetworkError = {ctor: 'NetworkError'};
+var _elm_lang$http$Http$Timeout = {ctor: 'Timeout'};
+var _elm_lang$http$Http$BadUrl = function (a) {
+	return {ctor: 'BadUrl', _0: a};
+};
+var _elm_lang$http$Http$StringPart = F2(
+	function (a, b) {
+		return {ctor: 'StringPart', _0: a, _1: b};
+	});
+var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
+
 var _elm_lang$mouse$Mouse_ops = _elm_lang$mouse$Mouse_ops || {};
 _elm_lang$mouse$Mouse_ops['&>'] = F2(
 	function (t1, t2) {
@@ -9887,6 +10248,15 @@ var _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace = function (name) {
 		name: name
 	};
 };
+var _rtfeldman$elm_css_helpers$Html_CssHelpers$withClass = F3(
+	function (className, makeElem, attrs) {
+		return makeElem(
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class(className),
+				_1: attrs
+			});
+	});
 var _rtfeldman$elm_css_helpers$Html_CssHelpers$Helpers = F3(
 	function (a, b, c) {
 		return {$class: a, classList: b, id: c};
@@ -12723,9 +13093,30 @@ var _rundis$elm_bootstrap$Bootstrap_Navbar$dropdownHeader = function (children) 
 			children));
 };
 
-var _user$project$Model$Model = F6(
-	function (a, b, c, d, e, f) {
-		return {page: a, navbarState: b, preferences: c, userBeingViewed: d, leftMatches: e, rightMatches: f};
+var _user$project$Localization$localizationDecoder = _elm_lang$core$Json_Decode$dict(
+	_elm_lang$core$Json_Decode$dict(_elm_lang$core$Json_Decode$string));
+var _user$project$Localization$englishJson = '\n    { \"general\" :\n        { \"app_name\" : \"ShowMeAround\"\n        }\n    , \"navbar\" :\n        { \"preferences\" : \"Searchables\"\n        , \"matcher\" : \"Find Friends\"\n        , \"logout\" : \"Logout\"\n        }\n    , \"login\" :\n        { \"heading\" : \"Please Sign In\"\n        , \"placeholder_email\" : \"Email address\"\n        , \"placeholder_password\" : \"Password\"\n        , \"button\" : \"Log In\"\n        }\n    , \"mainMenu\" :\n        { \"title\" : \"Main Menu\"\n        }\n    }\n    ';
+var _user$project$Localization$english = A2(
+	_elm_lang$core$Result$withDefault,
+	_elm_lang$core$Dict$empty,
+	A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Localization$localizationDecoder, _user$project$Localization$englishJson));
+var _user$project$Localization$getLocal = F2(
+	function (pageKey, textKey) {
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			'',
+			A2(
+				_elm_lang$core$Dict$get,
+				textKey,
+				A2(
+					_elm_lang$core$Maybe$withDefault,
+					_elm_lang$core$Dict$empty,
+					A2(_elm_lang$core$Dict$get, pageKey, _user$project$Localization$english))));
+	});
+
+var _user$project$Model$Model = F7(
+	function (a, b, c, d, e, f, g) {
+		return {page: a, navbarState: b, preferences: c, userBeingViewed: d, leftMatches: e, rightMatches: f, localization: g};
 	});
 var _user$project$Model$Preferences = F2(
 	function (a, b) {
@@ -12735,6 +13126,13 @@ var _user$project$Model$User = F4(
 	function (a, b, c, d) {
 		return {profileName: a, imgUrl: b, description: c, preferences: d};
 	});
+var _user$project$Model$LoadLocalization = function (a) {
+	return {ctor: 'LoadLocalization', _0: a};
+};
+var _user$project$Model$getEnglish = A2(
+	_elm_lang$http$Http$send,
+	_user$project$Model$LoadLocalization,
+	A2(_elm_lang$http$Http$get, 'http://localhost:5000/english', _user$project$Localization$localizationDecoder));
 var _user$project$Model$LookAwayFromUser = {ctor: 'LookAwayFromUser'};
 var _user$project$Model$Look = function (a) {
 	return {ctor: 'Look', _0: a};
@@ -12774,12 +13172,17 @@ var _user$project$Model$blankModel = function () {
 			},
 			userBeingViewed: _elm_lang$core$Maybe$Nothing,
 			leftMatches: {ctor: '[]'},
-			rightMatches: {ctor: '[]'}
+			rightMatches: {ctor: '[]'},
+			localization: _elm_lang$core$Dict$empty
 		},
 		{
 			ctor: '::',
 			_0: cmd,
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: _user$project$Model$getEnglish,
+				_1: {ctor: '[]'}
+			}
 		});
 }();
 var _user$project$Model$Right = {ctor: 'Right'};
@@ -12901,6 +13304,16 @@ var _user$project$Update$updateModel = F2(
 				return model;
 			case 'Goto':
 				return model;
+			case 'LoadLocalization':
+				if (_p0._0.ctor === 'Ok') {
+					return _elm_lang$core$Native_Utils.update(
+						model,
+						{localization: _p0._0._0});
+				} else {
+					return _elm_lang$core$Native_Utils.update(
+						model,
+						{localization: _user$project$Localization$english});
+				}
 			case 'NavbarMsg':
 				return _elm_lang$core$Native_Utils.update(
 					model,
@@ -13038,27 +13451,6 @@ var _user$project$Update$update = F2(
 					_1: {ctor: '[]'}
 				});
 		}
-	});
-
-var _user$project$Localization$localizationDecoder = _elm_lang$core$Json_Decode$dict(
-	_elm_lang$core$Json_Decode$dict(_elm_lang$core$Json_Decode$string));
-var _user$project$Localization$englishJson = '\n    { \"general\" :\n        { \"app_name\" : \"ShowMeAround\"\n        }\n    , \"navbar\" :\n        { \"preferences\" : \"Searchables\"\n        , \"matcher\" : \"Find Friends\"\n        , \"logout\" : \"Logout\"\n        }\n    , \"login\" :\n        { \"heading\" : \"Please Sign In\"\n        , \"placeholder_email\" : \"Email address\"\n        , \"placeholder_password\" : \"Password\"\n        , \"button\" : \"Log In\"\n        }\n    , \"mainMenu\" :\n        { \"title\" : \"Main Menu\"\n        }\n    }\n    ';
-var _user$project$Localization$english = A2(
-	_elm_lang$core$Result$withDefault,
-	_elm_lang$core$Dict$empty,
-	A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Localization$localizationDecoder, _user$project$Localization$englishJson));
-var _user$project$Localization$getLocal = F2(
-	function (pageKey, textKey) {
-		return A2(
-			_elm_lang$core$Maybe$withDefault,
-			'',
-			A2(
-				_elm_lang$core$Dict$get,
-				textKey,
-				A2(
-					_elm_lang$core$Maybe$withDefault,
-					_elm_lang$core$Dict$empty,
-					A2(_elm_lang$core$Dict$get, pageKey, _user$project$Localization$english))));
 	});
 
 var _user$project$SharedStyles$loginNamespace = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('main');
@@ -13294,6 +13686,19 @@ var _user$project$ViewUtilities$faIcon = function (iconName) {
 		},
 		{ctor: '[]'});
 };
+var _user$project$ViewUtilities$getLocal = F3(
+	function (model, pageKey, textKey) {
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			'',
+			A2(
+				_elm_lang$core$Dict$get,
+				textKey,
+				A2(
+					_elm_lang$core$Maybe$withDefault,
+					_elm_lang$core$Dict$empty,
+					A2(_elm_lang$core$Dict$get, pageKey, model.localization))));
+	});
 var _user$project$ViewUtilities$_p0 = _user$project$SharedStyles$loginNamespace;
 var _user$project$ViewUtilities$id = _user$project$ViewUtilities$_p0.id;
 var _user$project$ViewUtilities$class = _user$project$ViewUtilities$_p0.$class;
@@ -13384,7 +13789,7 @@ var _user$project$ViewUtilities$navbar = function (model) {
 							{
 								ctor: '::',
 								_0: _elm_lang$html$Html$text(
-									A2(_user$project$Localization$getLocal, 'general', 'app_name')),
+									A3(_user$project$ViewUtilities$getLocal, model, 'general', 'app_name')),
 								_1: {ctor: '[]'}
 							},
 							_rundis$elm_bootstrap$Bootstrap_Navbar$withAnimation(

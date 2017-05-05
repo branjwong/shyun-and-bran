@@ -1,5 +1,8 @@
 module Model exposing (..)
 
+import Dict exposing (Dict)
+import Localization
+import Http
 import Bootstrap.Navbar as Navbar
 
 
@@ -10,6 +13,7 @@ type alias Model =
     , userBeingViewed : Maybe User
     , leftMatches : List User
     , rightMatches : List User
+    , localization : Dict String (Dict String String)
     }
 
 
@@ -34,8 +38,9 @@ blankModel =
         , userBeingViewed = Nothing
         , leftMatches = []
         , rightMatches = []
+        , localization = Dict.empty
         }
-            ! [ cmd ]
+            ! [ cmd, getEnglish ]
 
 
 type alias User =
@@ -54,6 +59,7 @@ type Msg
     | LookAtUser User
     | Look NavDirection
     | LookAwayFromUser
+    | LoadLocalization (Result Http.Error Localization)
 
 
 type Page
@@ -73,3 +79,13 @@ type NavDirection
 type PreferenceType
     = Shopping
     | Sightseeing
+
+
+type alias Localization =
+    Dict String (Dict String String)
+
+
+getEnglish : Cmd Msg
+getEnglish =
+    Http.send LoadLocalization <|
+        Http.get "http://localhost:5000/english" Localization.localizationDecoder

@@ -4,4 +4,4 @@
 # When adding a new page, make sure the the script entry is added as well.
 # Needs '&&' so that the script stops when it hits a compiler error.
 
-elm-css src/style/Stylesheets.elm -o static/css
+elm-css client/style/Stylesheets.elm -o backend/app/static/app/css

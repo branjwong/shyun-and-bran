@@ -1,6 +1,7 @@
 module Update exposing (..)
 
 import Model exposing (..)
+import Localization
 import Bootstrap.Navbar as Navbar
 
 
@@ -12,6 +13,12 @@ updateModel msg model =
 
         Goto _ ->
             model
+
+        LoadLocalization (Ok localization) ->
+            { model | localization = localization }
+
+        LoadLocalization (Err _) ->
+            { model | localization = Localization.english }
 
         NavbarMsg state ->
             { model | navbarState = state }

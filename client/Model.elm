@@ -40,7 +40,7 @@ blankModel =
         , rightMatches = []
         , localization = Dict.empty
         }
-            ! [ cmd, getEnglish ]
+            ! [ cmd ]
 
 
 type alias User =
@@ -88,4 +88,4 @@ type alias Localization =
 getEnglish : Cmd Msg
 getEnglish =
     Http.send LoadLocalization <|
-        Http.get "http://localhost:5000/english" Localization.localizationDecoder
+        Http.get "http://localhost:8000/english" Localization.localizationDecoder

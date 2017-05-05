@@ -20,10 +20,9 @@ https://docs.google.com/document/d/1fTZI3jGCxygpydWMZkIeD4iRpsHKJXXvJkInywPgPfs
 
 ## Backend Instructions
 
-pip install --editable .
+* `pip install --editable .`
 
-export FLASK_APP=flaskr
-export FLASK_DEBUG=true
-flask initdb
-
-flask run
+* `export FLASK_APP=flaskr`
+* `export FLASK_DEBUG=true`
+* `flask initdb`
+* `flask run`
